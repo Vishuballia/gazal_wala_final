@@ -119,9 +119,9 @@
     function onYouTubeIframeAPIReady() {
       musicPlayer = new YT.Player('ytMusicPlayer', {
         height: '200', width: '200',
-        playerVars: { videoId: 'PLBbqmIdfz8g0', controls: 0, playsinline: 1, rel: 0, enablejsapi: 1, origin: window.location.origin },
+        playerVars: { listType: 'playlist', list: 'PLBbqmIdfz8g0', controls: 0, playsinline: 1, rel: 0, enablejsapi: 1, origin: window.location.origin },
         events: {
-          onReady: event => { playerReady = true; event.target.cueVideoById('PLBbqmIdfz8g0'); },
+          onReady: event => { playerReady = true; },
           onStateChange: event => {
             isPlaying = event.data === YT.PlayerState.PLAYING;
             document.getElementById('playButton').textContent = isPlaying ? 'Ⅱ' : '▶';
@@ -130,10 +130,10 @@
       });
     }
     function toggleMusic() {
-      if (!playerReady) { window.open('https://youtu.be/PLBbqmIdfz8g0?si=_dQ9dnhoOn2BfV6k', '_blank', 'noopener'); return; }
+      if (!playerReady) { window.open('https://youtube.com/playlist?list=PLBbqmIdfz8g0', '_blank', 'noopener'); return; }
       if (isPlaying) musicPlayer.pauseVideo(); else musicPlayer.playVideo();
     }
-    function nextTrack() { if (playerReady) musicPlayer.loadVideoById('PLBbqmIdfz8g0'); }
+    function nextTrack() { if (playerReady) musicPlayer.nextVideo(); }
   </script>
 </body>
 </html>
