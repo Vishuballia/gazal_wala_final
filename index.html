@@ -63,7 +63,7 @@
         <div class="track"><strong>ग़ज़ल की महफ़िल</strong><small>YouTube Song</small><div class="progress"><i></i></div></div>
         <button class="round-play" id="playButton" onclick="toggleMusic()" aria-label="प्लेलिस्ट चलाएं">▶</button>
         <button class="next-track" onclick="nextTrack()" aria-label="अगली ग़ज़ल">⏭</button>
-        <a class="playlist-pill" href="https://youtu.be/SJAiAFJaZd0?si=_dQ9dnhoOn2BfV6k" target="_blank" rel="noopener">▶ Song</a>
+        <a class="playlist-pill" href="https://youtu.be/PLBbqmIdfz8g0?si=_dQ9dnhoOn2BfV6k" target="_blank" rel="noopener">▶ Song</a>
       </div>
     </div>
   </header>
@@ -119,9 +119,9 @@
     function onYouTubeIframeAPIReady() {
       musicPlayer = new YT.Player('ytMusicPlayer', {
         height: '200', width: '200',
-        playerVars: { videoId: 'SJAiAFJaZd0', controls: 0, playsinline: 1, rel: 0, enablejsapi: 1, origin: window.location.origin },
+        playerVars: { videoId: 'PLBbqmIdfz8g0', controls: 0, playsinline: 1, rel: 0, enablejsapi: 1, origin: window.location.origin },
         events: {
-          onReady: event => { playerReady = true; event.target.cueVideoById('SJAiAFJaZd0'); },
+          onReady: event => { playerReady = true; event.target.cueVideoById('PLBbqmIdfz8g0'); },
           onStateChange: event => {
             isPlaying = event.data === YT.PlayerState.PLAYING;
             document.getElementById('playButton').textContent = isPlaying ? 'Ⅱ' : '▶';
@@ -130,10 +130,10 @@
       });
     }
     function toggleMusic() {
-      if (!playerReady) { window.open('https://youtu.be/SJAiAFJaZd0?si=_dQ9dnhoOn2BfV6k', '_blank', 'noopener'); return; }
+      if (!playerReady) { window.open('https://youtu.be/PLBbqmIdfz8g0?si=_dQ9dnhoOn2BfV6k', '_blank', 'noopener'); return; }
       if (isPlaying) musicPlayer.pauseVideo(); else musicPlayer.playVideo();
     }
-    function nextTrack() { if (playerReady) musicPlayer.loadVideoById('SJAiAFJaZd0'); }
+    function nextTrack() { if (playerReady) musicPlayer.loadVideoById('PLBbqmIdfz8g0'); }
   </script>
 </body>
 </html>
