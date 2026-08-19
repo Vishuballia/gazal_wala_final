@@ -120,25 +120,38 @@
     function randomGhazal() { currentGhazal = Math.floor(Math.random() * allGhazals.length); renderGhazal(); resetGhazalTimer(); }
     renderGhazal();
     resetGhazalTimer();
-    let musicPlayer, playerReady = false, isPlaying = false, progressTimer;
+    let musicPlayer, playerReady = false, isPlaying = false, progressTimer, pendingPlay = false, readyTimeoutId;
     function onYouTubeIframeAPIReady() {
       musicPlayer = new YT.Player('ytMusicPlayer', {
         height: '200', width: '200',
         playerVars: { listType: 'playlist', list: 'PLBbqmIdfz8g0', controls: 0, playsinline: 1, rel: 0, enablejsapi: 1, origin: window.location.origin },
         events: {
-          onReady: event => { playerReady = true; },
+          onReady: event => {
+            playerReady = true;
+            clearTimeout(readyTimeoutId);
+            if (pendingPlay) { pendingPlay = false; musicPlayer.playVideo(); document.getElementById('playButton').textContent = 'Ⅱ'; }
+          },
           onStateChange: event => {
             isPlaying = event.data === YT.PlayerState.PLAYING;
             document.getElementById('playButton').textContent = isPlaying ? 'Ⅱ' : '▶';
             if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.CUED) updateTrackTitle();
             if (isPlaying) { clearInterval(progressTimer); progressTimer = setInterval(updateProgress, 500); }
             else clearInterval(progressTimer);
-          }
+          },
+          onError: event => { if (playerReady) musicPlayer.nextVideo(); }
         }
       });
     }
     function toggleMusic() {
-      if (!playerReady) { window.open('https://youtube.com/playlist?list=PLBbqmIdfz8g0', '_blank', 'noopener'); return; }
+      if (!playerReady) {
+        if (pendingPlay) return;
+        pendingPlay = true;
+        document.getElementById('playButton').textContent = '…';
+        readyTimeoutId = setTimeout(() => {
+          if (!playerReady) { pendingPlay = false; window.open('https://youtube.com/playlist?list=PLBbqmIdfz8g0', '_blank', 'noopener'); document.getElementById('playButton').textContent = '▶'; }
+        }, 8000);
+        return;
+      }
       if (isPlaying) musicPlayer.pauseVideo(); else musicPlayer.playVideo();
     }
     function nextTrack() { if (playerReady) musicPlayer.nextVideo(); }
