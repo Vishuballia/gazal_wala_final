@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#20120d">
+  <title>ग़ज़ल की दुनिया | हर शाम, एक नई ग़ज़ल</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#25130c; --wine:#6f251b; --saffron:#d99744; --cream:#fff7e9; --paper:#f6e7ce; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:var(--cream); font-family:Hind, sans-serif; }
+    .hero { min-height:690px; color:#fff9ed; background-image:linear-gradient(90deg,rgba(20,9,5,.83),rgba(20,9,5,.38) 55%,rgba(20,9,5,.67)),url('ghazal-bg.png'); background-size:cover; background-position:center top; }
+    .nav { max-width:1180px; margin:auto; height:82px; padding:0 26px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,.22); }
+    .brand { font:700 29px 'Noto Serif Devanagari',serif; letter-spacing:.3px; }
+    .brand span { color:#f3bd70; }
+    .nav-links { display:flex; align-items:center; gap:27px; font-size:16px; }
+    .nav-links a { color:inherit; text-decoration:none; }
+    .nav-links .login { border:1px solid #efc689; padding:8px 18px; border-radius:5px; }
+    .hero-copy { max-width:1180px; margin:0 auto; padding:104px 26px 70px; }
+    .eyebrow { letter-spacing:2px; text-transform:uppercase; color:#f2c786; font-size:13px; font-weight:700; }
+    h1 { max-width:600px; margin:17px 0 12px; font:700 clamp(42px,6vw,72px)/1.2 'Noto Serif Devanagari',serif; }
+    .intro { max-width:500px; font-size:20px; line-height:1.7; color:#fff4dc; }
+    .search-box { max-width:1040px; margin:32px auto 0; padding:19px; background:#fff9ef; color:var(--ink); border-radius:11px; box-shadow:0 16px 35px rgba(0,0,0,.3); display:grid; grid-template-columns:1.1fr 1.1fr 1fr auto; gap:11px; }
+    .field { border:1px solid #dfc9a7; border-radius:6px; padding:9px 14px; min-height:57px; display:flex; flex-direction:column; justify-content:center; }
+    .field small { color:#816c56; font-size:12px; } .field strong { font-size:17px; font-weight:600; }
+    button { border:0; border-radius:6px; background:var(--wine); color:#fff9ed; padding:0 30px; font:600 17px Hind,sans-serif; cursor:pointer; transition:.2s; }
+    button:hover { background:#8b3325; transform:translateY(-1px); }
+    .mini-player { max-width:470px; margin:18px 0 0; padding:13px 18px; display:flex; align-items:center; gap:13px; border-radius:25px; background:linear-gradient(120deg,rgba(7,12,21,.95),rgba(18,24,35,.9)); box-shadow:0 10px 28px rgba(0,0,0,.32); }
+    .album-art { width:49px; height:49px; flex:0 0 49px; border-radius:50%; background:url('ghazal-bg.png') center/cover; border:2px solid rgba(255,255,255,.18); }
+    .track { min-width:0; flex:1; }.track strong { display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:15px; }.track small { display:block; color:#c5c9d1; font-size:12px; }.progress { margin-top:5px; height:4px; overflow:hidden; border-radius:5px; background:#4b5360; }.progress i { display:block; width:26%; height:100%; background:#eef0f5; }
+    .round-play { width:47px; height:47px; min-width:47px; padding:0; border-radius:50%; background:#fff; color:#151b25; font-size:17px; }.round-play:hover { background:#fff; color:#151b25; }.next-track { padding:6px; background:transparent; color:#fff; font-size:20px; }.next-track:hover { background:transparent; color:#f1c47f; }.playlist-pill { padding:5px 10px; border-radius:16px; background:rgba(255,255,255,.12); color:#fff; font:600 12px Hind,sans-serif; text-decoration:none; white-space:nowrap; }.yt-audio-source, #ytMusicPlayer { position:fixed; left:-9999px; top:-9999px; width:200px !important; height:200px !important; overflow:hidden; opacity:0; pointer-events:none; }
+    section { max-width:1180px; margin:auto; padding:76px 26px; }
+    .section-kicker { color:var(--wine); font-weight:700; letter-spacing:1.3px; font-size:13px; }
+    h2 { margin:7px 0 27px; font:700 clamp(28px,4vw,43px) 'Noto Serif Devanagari',serif; }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .card { padding:25px; min-height:185px; border:1px solid #e4d2b7; border-radius:10px; background:#fffdf8; box-shadow:0 5px 16px rgba(57,31,15,.06); }
+    .icon { color:var(--wine); font-size:28px; } .card h3 { margin:12px 0 5px; font:600 23px 'Noto Serif Devanagari',serif; } .card p { margin:0; color:#765f4c; font-size:16px; line-height:1.55; }
+    .collection { background:#2d1912; color:#fff8e9; max-width:none; padding:70px max(26px,calc((100% - 1128px)/2)); }
+    .collection h2 { color:#fff8e9; } .collection .section-kicker { color:#efbd77; }
+    .ghazal-stage { width:min(810px,100%); min-height:315px; margin:0 auto; padding:39px 72px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; position:relative; overflow:hidden; border:1px solid rgba(238,190,118,.42); border-radius:17px; background:radial-gradient(circle at top,#604027,#2d1912 66%); box-shadow:0 14px 34px rgba(0,0,0,.25); }.ghazal-stage:before,.ghazal-stage:after { content:'❦'; position:absolute; color:rgba(239,190,119,.23); font-size:130px; }.ghazal-stage:before { top:-48px; left:21px; transform:rotate(-25deg); }.ghazal-stage:after { right:18px; bottom:-58px; transform:rotate(150deg); }.stage-label { position:relative; color:#e9b976; letter-spacing:1.5px; font-size:13px; font-weight:700; }.stage-title { position:relative; margin:10px 0 14px; font:600 27px 'Noto Serif Devanagari',serif; color:#fff5df; }.stage-couplet { position:relative; max-width:650px; margin:0; white-space:pre-line; font:500 18px/1.8 'Noto Serif Devanagari',serif; color:#fff9ec; }.stage-author { position:relative; margin:18px 0 0; padding-top:12px; color:#f3cd8f; font:600 italic 17px 'Noto Serif Devanagari',serif; letter-spacing:.4px; }.stage-author:before { content:''; display:block; width:34px; height:2px; margin:0 auto 10px; background:linear-gradient(90deg,transparent,#e9b976,transparent); }.ghazal-stage.is-changing .stage-label,.ghazal-stage.is-changing .stage-title,.ghazal-stage.is-changing .stage-couplet,.ghazal-stage.is-changing .stage-author { animation:ghazalIn .55s ease both; }.ghazal-stage.is-changing .stage-title { animation-delay:.07s; }.ghazal-stage.is-changing .stage-couplet { animation-delay:.14s; }.ghazal-stage.is-changing .stage-author { animation-delay:.21s; }@keyframes ghazalIn { from { opacity:0; transform:translateY(13px); } to { opacity:1; transform:translateY(0); } }.ghazal-controls { display:flex; align-items:center; justify-content:center; gap:13px; margin-top:23px; }.ghazal-control { min-width:98px; min-height:43px; padding:0 15px; border:1px solid rgba(238,190,118,.45); background:transparent; color:#fae3bb; font-size:15px; }.ghazal-control:hover { background:rgba(238,190,118,.16); }.random-ghazal { background:#be7940; border-color:#be7940; color:#fff; }.random-ghazal:hover { background:#d88f4d; }
+    .cta { text-align:center; padding:78px 26px; background:linear-gradient(90deg,#e9c38c,#f8e6c7); }.cta h2 { margin-bottom:12px; }.cta p { margin:0 auto 22px; font-size:18px; color:#70533d; }.cta button { min-height:48px; }
+    .about-dialogue { width:min(760px,100%); margin:31px auto 0; padding:22px; display:grid; grid-template-columns:70px 1fr auto; align-items:center; gap:18px; text-align:left; border:1px solid rgba(111,37,27,.28); border-radius:16px; background:rgba(255,250,240,.86); box-shadow:0 12px 28px rgba(83,45,18,.13); position:relative; }.about-dialogue:before { content:'“'; position:absolute; top:-27px; left:99px; color:var(--wine); font:700 67px Georgia,serif; }.insta-avatar { width:70px; height:70px; display:grid; place-items:center; border:3px solid #fff8ec; border-radius:50%; color:#fff; font:700 29px 'Noto Serif Devanagari',serif; background:linear-gradient(145deg,#833ab4,#fd1d1d 55%,#fcb045); box-shadow:0 4px 11px rgba(111,37,27,.25); }.insta-text small { color:var(--wine); font-weight:700; letter-spacing:.7px; }.insta-text h3 { margin:2px 0; font:600 22px 'Noto Serif Devanagari',serif; }.insta-text p { margin:0; font-size:15px; line-height:1.45; }.insta-link { display:inline-flex; align-items:center; justify-content:center; min-height:43px; padding:0 16px; border-radius:7px; color:#fff9ed; text-decoration:none; font-weight:600; white-space:nowrap; background:linear-gradient(110deg,#833ab4,#e1306c,#f77737); }.insta-link:hover { transform:translateY(-1px); }
+    footer { background:#1c0e09; padding:22px; text-align:center; color:#d8b98b; }
+    @media (max-width:760px) { .nav { height:68px; padding:0 18px; }.brand { font-size:22px; }.nav-links a:not(.login) { display:none; }.nav-links { gap:0; }.hero { min-height:650px; }.hero-copy { padding:74px 22px 45px; }.search-box { margin-top:28px; grid-template-columns:1fr; }.search-box button { min-height:52px; }.mini-player { max-width:100%; padding:10px 12px; gap:9px; }.album-art { width:42px; height:42px; flex-basis:42px; }.playlist-pill { display:none; }.grid { grid-template-columns:1fr; } section { padding:56px 22px; }.ghazal-stage { min-height:295px; padding:34px 25px; }.stage-title { font-size:23px; }.stage-couplet { font-size:19px; }.ghazal-controls { gap:7px; }.ghazal-control { min-width:0; padding:0 11px; font-size:13px; }.about-dialogue { grid-template-columns:54px 1fr; padding:18px; gap:13px; }.insta-avatar { width:54px; height:54px; font-size:23px; }.about-dialogue:before { left:75px; }.insta-link { grid-column:1/-1; } }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <nav class="nav">
+      <div class="brand">ग़ज़ल <span>की</span> दुनिया</div>
+      <div class="nav-links"><a href="#mehfil">महफ़िल</a><a href="#collection">ग़ज़लें</a><a href="#about">हमारे बारे में</a><a class="login" href="#join">शामिल हों</a></div>
+    </nav>
+    <div class="hero-copy">
+      <div class="eyebrow">अल्फ़ाज़ों का सुकून</div>
+      <h1>हर एहसास को मिलती है एक ग़ज़ल</h1>
+      <p class="intro">पुरानी महफ़िलों की रौनक, नर्म धुनों का साथ और दिल में उतर जाने वाले अल्फ़ाज़ — सब एक जगह।</p>
+      <div class="mini-player" aria-label="ग़ज़ल प्लेलिस्ट प्लेयर">
+        <div class="album-art"></div>
+        <div class="track"><strong>ग़ज़ल की महफ़िल</strong><small>YouTube Playlist</small><div class="progress"><i></i></div></div>
+        <button class="round-play" id="playButton" onclick="toggleMusic()" title="ग़ज़ल प्लेलिस्ट चलाएं" aria-label="प्लेलिस्ट चलाएं">▶</button>
+        <button class="next-track" onclick="nextTrack()" aria-label="अगली ग़ज़ल">⏭</button>
+        <a class="playlist-pill" href="https://youtube.com/playlist?list=PLYok1xQGKWWY&si=E3NIX9F0XG63xw-j" target="_blank" rel="noopener">☷ Playlist</a>
+      </div>
+    </div>
+  </header>
+  <div id="ytMusicPlayer" class="yt-audio-source" aria-hidden="true"></div>
+  <section id="mehfil">
+    <div class="section-kicker">क्यों ग़ज़ल की दुनिया?</div>
+    <h2>दिल की बात, बेहतरीन अंदाज़ में</h2>
+    <div class="grid">
+      <article class="card"><div class="icon">✦</div><h3>चुनिंदा ग़ज़लें</h3><p>मशहूर शायरों से लेकर नए अल्फ़ाज़ों तक, हर मिज़ाज के लिए एक खास पेशकश।</p></article>
+      <article class="card"><div class="icon">♫</div><h3>सुनिए और महसूस कीजिए</h3><p>नर्म आवाज़ों और सुकून भरी धुनों के साथ अपनी पसंदीदा ग़ज़लों का आनंद लें।</p></article>
+      <article class="card"><div class="icon">❦</div><h3>अपनी महफ़िल बनाइए</h3><p>पसंद की ग़ज़लों को सहेजें, दोस्तों के साथ साझा करें और अपनी शाम को खास बनाएं।</p></article>
+    </div>
+  </section>
+  <section class="collection" id="collection">
+    <div class="section-kicker">ग़ज़ल संग्रह · 50 ग़ज़लें और शायरियाँ</div>
+    <h2>हर मिज़ाज के लिए एक ग़ज़ल</h2>
+    <div class="ghazal-stage" id="ghazalStage"><div class="stage-label" id="ghazalLabel">ग़ज़ल / शायरी की महफ़िल</div><h3 class="stage-title" id="ghazalTitle"></h3><p class="stage-couplet" id="ghazalCouplet"></p><p class="stage-author" id="ghazalAuthor"></p></div>
+    <div class="ghazal-controls"><button class="ghazal-control" onclick="previousGhazal()">← पिछली</button><button class="ghazal-control random-ghazal" onclick="randomGhazal()">✦ रैंडम</button><button class="ghazal-control" onclick="nextGhazal()">अगली →</button></div>
+  </section>
+  <section class="cta" id="join"><div id="about" class="section-kicker">हमारे बारे में</div><h2>ग़ज़लों से दिलों तक</h2><p>हर लम्हे को अल्फ़ाज़, सुकून और खूबसूरत यादों से जोड़ने की एक छोटी-सी कोशिश।</p><div class="about-dialogue"><div class="insta-avatar">अ</div><div class="insta-text"><small>INSTAGRAM PROFILE</small><h3>@anamikayadav705</h3><p>“ग़ज़लों की तरह, कुछ बातें दिल में उतर जाती हैं।”</p></div><a class="insta-link" href="https://www.instagram.com/anamikayadav705/" target="_blank" rel="noopener">Instagram देखें</a></div></section>
+  <footer>© 2026 ग़ज़ल की दुनिया · अल्फ़ाज़ों से दिलों तक</footer>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    const allGhazals = [
+      ['आह को चाहिए इक उम्र असर होने तक', 'मिर्ज़ा ग़ालिब', 'आह को चाहिए इक उम्र असर होने तक<br>कौन जीता है तिरी ज़ुल्फ़ के सर होने तक<br><br>दाम-ए-हर-मौज में है हल्क़ा-ए-सद-काम-ए-नहंग<br>देखें क्या गुज़रे है क़तरे पे गुहर होने तक<br><br>आशिक़ी सब्र-तलब और तमन्ना बेताब<br>दिल का क्या रंग करूँ ख़ून-ए-जिगर होने तक<br><br>हम ने माना कि तग़ाफ़ुल न करोगे लेकिन<br>ख़ाक हो जाएँगे हम तुम को ख़बर होने तक<br><br>परतव-ए-ख़ुर से है शबनम को फ़ना की तालीम<br>मैं भी हूँ एक इनायत की नज़र होने तक<br><br>ग़म-ए-हस्ती का असद किस से हो जुज़ मर्ग इलाज<br>शमा हर रंग में जलती है सहर होने तक'],
+      ['दिल-ए-नादाँ तुझे हुआ क्या है', 'मिर्ज़ा ग़ालिब', 'दिल-ए-नादाँ तुझे हुआ क्या है<br>आख़िर इस दर्द की दवा क्या है<br><br>हम हैं मुश्ताक़ और वो बे-ज़ार<br>या इलाही ये माजरा क्या है<br><br>मैं भी मुँह में ज़बान रखता हूँ<br>काश पूछो कि मुद्दआ\' क्या है<br><br>जब कि तुझ बिन नहीं कोई मौजूद<br>फिर ये हंगामा ऐ ख़ुदा क्या है<br><br>ये परी-चेहरा लोग कैसे हैं<br>ग़म्ज़ा ओ इश्वा ओ अदा क्या है<br><br>हम को उन से वफ़ा की है उम्मीद<br>जो नहीं जानते वफ़ा क्या है<br><br>जान तुम पर निसार करता हूँ<br>मैं नहीं जानता दुआ क्या है<br><br>मैं ने माना कि कुछ नहीं ग़ालिब<br>मुफ़्त हाथ आए तो बुरा क्या है'],
+      ['कोई उम्मीद बर नहीं आती', 'मिर्ज़ा ग़ालिब', 'कोई उम्मीद बर नहीं आती<br>कोई सूरत नज़र नहीं आती<br><br>मौत का एक दिन मुअय्यन है<br>नींद क्यूँ रात भर नहीं आती<br><br>आगे आती थी हाल-ए-दिल पे हँसी<br>अब किसी बात पर नहीं आती<br><br>जानता हूँ सवाब-ए-ताअत-ओ-ज़ोहद<br>पर तबीअत इधर नहीं आती<br><br>हम वहाँ हैं जहाँ से हम को भी<br>कुछ हमारी ख़बर नहीं आती<br><br>मरते हैं आरज़ू में मरने की<br>मौत आती है पर नहीं आती<br><br>का\'बा किस मुँह से जाओगे ग़ालिब<br>शर्म तुम को मगर नहीं आती'],
+      ['हज़ारों ख़्वाहिशें ऐसी कि हर ख़्वाहिश पे दम निकले', 'मिर्ज़ा ग़ालिब', 'हज़ारों ख़्वाहिशें ऐसी कि हर ख़्वाहिश पे दम निकले<br>बहुत निकले मिरे अरमान लेकिन फिर भी कम निकले<br><br>डरे क्यूँ मेरा क़ातिल क्या रहेगा उस की गर्दन पर<br>वो ख़ूँ जो चश्म-ए-तर से उम्र भर यूँ दम-ब-दम निकले<br><br>निकलना ख़ुल्द से आदम का सुनते आए हैं लेकिन<br>बहुत बे-आबरू हो कर तिरे कूचे से हम निकले<br><br>मोहब्बत में नहीं है फ़र्क़ जीने और मरने का<br>उसी को देख कर जीते हैं जिस काफ़िर पे दम निकले<br><br>ख़ुदा के वास्ते पर्दा न का\'बे से उठा ज़ालिम<br>कहीं ऐसा न हो यां भी वही काफ़िर सनम निकले<br><br>कहाँ मय-ख़ाने का दरवाज़ा ग़ालिब और कहाँ वाइज़<br>पर इतना जानते हैं कल वो जाता था कि हम निकले'],
+      ['इश्क़ से तबीयत ने ज़ीस्त का मज़ा पाया', 'मिर्ज़ा ग़ालिब', 'इश्क़ से तबीअत ने ज़ीस्त का मज़ा पाया<br>दर्द की दवा पाई दर्द-ए-बे-दवा पाया<br><br>हाल-ए-दिल नहीं मालूम लेकिन इस क़दर यानी<br>हम ने बारहा ढूँढा तुम ने बारहा पाया<br><br>दोस्त दारे-दुश्मन है एतमाद-ए-दिल मालूम<br>आह बे-असर देखी नाला ना-रसा पाया'],
+      ['बस कि दुश्वार है हर काम का आसाँ होना', 'मिर्ज़ा ग़ालिब', 'बस कि दुश्वार है हर काम का आसाँ होना<br>आदमी को भी मयस्सर नहीं इंसाँ होना<br><br>गिर्या चाहे है ख़राबी मिरे काशाने की<br>दर-ओ-दीवार से टपके है बयाबाँ होना<br><br>वा-ए-दीवानगी-ए-शौक़ कि हर दम मुझ को<br>आप जाना उधर और आप ही हैराँ होना<br><br>जल्वा अज़-बस कि तक़ाज़ा-ए-निगह करता है<br>जौहर-ए-आइना भी चाहे है मिज़्गाँ होना<br><br>इशरत-ए-क़त्ल-गह-ए-अहल-ए-तमन्ना मत पूछ<br>ईद-ए-नज़्ज़ारा है शमशीर का उर्यां होना'],
+      ['ये न थी हमारी क़िस्मत कि विसाल-ए-यार होता', 'मिर्ज़ा ग़ालिब', 'ये न थी हमारी क़िस्मत कि विसाल-ए-यार होता<br>अगर और जीते रहते यही इंतज़ार होता<br><br>तिरे वादे पर जिए हम तो ये जान झूठ जाना<br>कि ख़ुशी से मर न जाते अगर ऐतबार होता<br><br>ये कहाँ की दोस्ती है कि बने हैं दोस्त नासेह<br>कोई चारा-साज़ होता कोई ग़मगुसार होता<br><br>ग़म अगर्चे जाँ-गुसिल है पे कहाँ बचें कि दिल है<br>ग़म-ए-इश्क़ गर न होता ग़म-ए-रोज़गार होता<br><br>कहूँ किस से मैं कि क्या है शब-ए-ग़म बुरी बला है<br>मुझे क्या बुरा था मरना अगर एक बार होता<br><br>हुए मर के हम जो रुस्वा हुए क्यूँ न ग़र्क़-ए-दरिया<br>न कभी जनाज़ा उठता न कहीं मज़ार होता<br><br>ये मसाइल-ए-तसव्वुफ़ ये तिरा बयान ग़ालिब<br>तुझे हम वली समझते जो न बादा-ख़्वार होता'],
+      ['इश्क़ पर ज़ोर नहीं है ये वो आतिश ग़ालिब', 'मिर्ज़ा ग़ालिब · शेर + नई शायरी', 'इश्क़ पर ज़ोर नहीं है ये वो आतिश ग़ालिब<br>कि लगाए न लगे और बुझाए न बने<br><br>इश्क़ हो तो हर कठिन राह भी आसान लगे<br>दिल को हर दर्द में बस उसका ही ध्यान लगे'],
+      ['दिल ही तो है न संग-ओ-ख़िश्त, दर्द से भर न आए क्यों', 'मिर्ज़ा ग़ालिब · शेर + नई शायरी', 'दिल ही तो है न संग-ओ-ख़िश्त दर्द से भर न आए क्यों<br>रोऐंगे हम हज़ार बार कोई हमें सताए क्यों<br><br>दिल की दुनिया में यही एक सहारा है अभी<br>नाम उसका ही मेरी साँसों में प्यारा है अभी'],
+      ['रगों में दौड़ते फिरने के हम नहीं क़ाइल', 'मिर्ज़ा ग़ालिब', 'हर एक बात पे कहते हो तुम कि तू क्या है<br>तुम्हीं कहो कि ये अंदाज़-ए-गुफ़्तगू क्या है<br><br>न शोले में ये करिश्मा न बर्क़ में ये अदा<br>कोई बताओ कि वो शोख़-ए-तुंद-ख़ू क्या है<br><br>चिपक रहा है बदन पर लहू से पैराहन<br>हमारी जेब को अब हाजत-ए-रफ़ू क्या है<br><br>जला है जिस्म जहाँ दिल भी जल गया होगा<br>कुरेदते हो जो अब राख जुस्तुजू क्या है<br><br>रगों में दौड़ते फिरने के हम नहीं क़ाइल<br>जब आँख ही से न टपका तो फिर लहू क्या है<br><br>वो चीज़ जिस के लिए हम को हो बहिश्त अज़ीज़<br>सिवाए बादा-ए-गुलफ़ाम-ए-मुश्क-बू क्या है<br><br>हुआ है शह का मुसाहिब फिरे है इतराता<br>वगर्ना शहर में ग़ालिब की आबरू क्या है'],
+      ['हर एक बात पे कहते हो तुम कि तू क्या है', 'मिर्ज़ा ग़ालिब', 'हर एक बात पे कहते हो तुम कि तू क्या है<br>तुम्हीं कहो कि ये अंदाज़-ए-गुफ़्तगू क्या है<br><br>न शोले में ये करिश्मा न बर्क़ में ये अदा<br>कोई बताओ कि वो शोख़-ए-तुंद-ख़ू क्या है<br><br>चिपक रहा है बदन पर लहू से पैराहन<br>हमारी जेब को अब हाजत-ए-रफ़ू क्या है<br><br>जला है जिस्म जहाँ दिल भी जल गया होगा<br>कुरेदते हो जो अब राख जुस्तुजू क्या है<br><br>रगों में दौड़ते फिरने के हम नहीं क़ाइल<br>जब आँख ही से न टपका तो फिर लहू क्या है<br><br>वो चीज़ जिस के लिए हम को हो बहिश्त अज़ीज़<br>सिवाए बादा-ए-गुलफ़ाम-ए-मुश्क-बू क्या है<br><br>हुआ है शह का मुसाहिब फिरे है इतराता<br>वगर्ना शहर में ग़ालिब की आबरू क्या है'],
+      ['नुक्ताचीं है ग़म-ए-दिल उसको सुनाए न बने', 'मिर्ज़ा ग़ालिब', 'नुक्ताचीं है ग़म-ए-दिल उसको सुनाए न बने<br>क्या बने बात जहाँ बात बनाए न बने<br><br>मैं बुलाता तो हूँ उस को मगर ऐ जज़्बा-ए-दिल<br>उस पे बन जाए कुछ ऐसी कि बिन आए न बने'],
+      ['हम को मालूम है जन्नत की हक़ीक़त लेकिन', 'मिर्ज़ा ग़ालिब · शेर + नई शायरी', 'हम को मालूम है जन्नत की हक़ीक़त लेकिन<br>दिल के ख़ुश रखने को ग़ालिब ये ख़याल अच्छा है<br><br>ख़ुश रहने को कभी एक ख़याल भी काफ़ी है<br>टूटे दिल के लिए उम्मीद की मिसाल भी काफ़ी है'],
+      ['न था कुछ तो ख़ुदा था, कुछ न होता तो ख़ुदा होता', 'मिर्ज़ा ग़ालिब · शेर + नई शायरी', 'न था कुछ तो ख़ुदा था कुछ न होता तो ख़ुदा होता<br>डुबोया मुझ को होने ने न होता मैं तो क्या होता<br><br>होने का ये सफ़र भी अजब खेल रहा है<br>जो मिला नहीं वही दिल में सबसे मेल रहा है'],
+      ['बाज़ीचा-ए-अत्फ़ाल है दुनिया मिरे आगे', 'मिर्ज़ा ग़ालिब', 'बाज़ीचा-ए-अत्फ़ाल है दुनिया मिरे आगे<br>होता है शब-ओ-रोज़ तमाशा मिरे आगे<br><br>इक खेल है औरंग-ए-सुलेमाँ मिरे नज़दीक<br>इक बात है एजाज़-ए-मसीहा मिरे आगे<br><br>जुज़ नाम नहीं सूरत-ए-आलम मुझे मंज़ूर<br>जुज़ वहम नहीं हस्ती-ए-अश्या मिरे आगे<br><br>मत पूछ कि क्या हाल है मेरा तिरे पीछे<br>तू देख कि क्या रंग है तेरा मिरे आगे<br><br>सच कहते हो ख़ुद-बीन-ओ-ख़ुद-आरा हूँ न क्यूँ हूँ<br>बैठा है बुत-ए-आइना-सीमा मिरे आगे<br><br>ईमाँ मुझे रोके है जो खींचे है मुझे कुफ़्र<br>का\'बा मिरे पीछे है कलीसा मिरे आगे<br><br>है मौज-ज़न इक क़ुल्ज़ुम-ए-ख़ूँ काश यही हो<br>आता है अभी देखिए क्या क्या मिरे आगे<br><br>गो हाथ को जुम्बिश नहीं आँखों में तो दम है<br>रहने दो अभी साग़र-ओ-मीना मिरे आगे<br><br>हम-पेशा-ओ-हम-मशरब-ओ-हमराज़ है मेरा<br>ग़ालिब को बुरा क्यूँ कहो अच्छा मिरे आगे'],
+      ['पत्ता पत्ता बूटा बूटा हाल हमारा जाने है', 'मीर तक़ी मीर', 'पत्ता पत्ता बूटा बूटा हाल हमारा जाने है<br>जाने न जाने गुल ही न जाने बाग़ तो सारा जाने है<br><br>लगने न दे बस हो तो उस के गौहर-ए-गोश को बाले तक<br>उस को फ़लक चश्म-ए-मह-ओ-ख़ुर की पुतली का तारा जाने है<br><br>आगे उस मुतकब्बिर के हम ख़ुदा ख़ुदा किया करते हैं<br>कब मौजूद ख़ुदा को वो मग़रूर-ए-ख़ुद-आरा जाने है<br><br>आशिक़ सा तो सादा कोई और न होगा दुनिया में<br>जी के ज़ियाँ को इश्क़ में उस के अपना वारा जाने है<br><br>चारागरी बीमारी-ए-दिल की रस्म-ए-शहर-ए-हुस्न नहीं<br>वर्ना दिलबर-ए-नादाँ भी इस दर्द का चारा जाने है<br><br>रख़नों से दीवार-ए-चमन के मुँह को ले है छुपा या\'नी<br>इन सूराख़ों के टुक रहने को सौ का नज़ारा जाने है<br><br>तिश्ना-ए-ख़ूँ है अपना कितना मीर भी नादाँ तल्ख़ी-कश<br>दुम-दार आब-ए-तेग़ को उस के आब-ए-गवारा जाने है'],
+      ['इब्तिदा-ए-इश्क़ है रोता है क्या', 'मूल शायरी', 'इश्क़ की राह में हर मोड़ नया लगता है<br>दिल को हर दर्द भी कुछ कम नया लगता है<br>जिसे चाहो वही अक्सर दूर चला जाता है<br>फिर भी उसका ही ख़याल अपना सा लगता है'],
+      ['देख तो दिल कि जाँ से उठता है', 'मूल शायरी', 'देखता हूँ तो तेरी याद नज़र आती है<br>रात चुप हो तो तेरी बात नज़र आती है<br>दिल को समझाया बहुत, दिल ने न माना फिर भी<br>हर दुआ में तेरी सौगात नज़र आती है'],
+      ['उल्टी हो गईं सब तदबीरें, कुछ न दवा ने काम किया', 'मूल शायरी', 'उलझे हालात में उम्मीद बचाए रखना<br>दिल को टूटे हुए ख़्वाबों से सजाए रखना<br>वक़्त बदलेगा तो मौसम भी बदल जाएगा<br>अपने होंठों पे ज़रा हौसला बनाए रखना'],
+      ['नाज़ुकी उसके लब की क्या कहिए', 'मूल शायरी', 'लबों की नर्मी में इक राज़ छुपा रहता है<br>तेरी आँखों में कोई ख़्वाब जगा रहता है<br>मैं जो चुप हूँ तो इसे मेरी ख़ता मत समझ<br>दिल में हर वक़्त तेरा नाम लिखा रहता है'],
+      ['सरहाने मीर के आहिस्ता बोलो', 'मूल शायरी', 'रात गहरी हो तो आवाज़ मेरी याद करना<br>चाँद निकले तो मुझे दिल से पुकार करना<br>नींद आए न अगर दर्द की तन्हाई में<br>मेरे अल्फ़ाज़ को तकिए का सहारा करना'],
+      ['मीर के दीन-ओ-मज़हब को अब पूछते क्या हो', 'मूल शायरी', 'इश्क़ की बात है, दुनिया से छुपाकर रखना<br>अपने दिल में इसे चुपचाप सजाकर रखना<br>लोग पूछें तो बस इतना ही कहना उनसे<br>एक चेहरा है जिसे दिल में बसाकर रखना'],
+      ['आशिक़ी सब्र तलब और तमन्ना बेताब', 'मूल शायरी', 'सब्र रख दिल, ये कहानी भी बदल जाएगी<br>एक दिन तेरी उदासी भी निकल जाएगी<br>आज आँखों में अगर दर्द का मौसम है तो क्या<br>कल यही धूप तेरी राह में ढल जाएगी'],
+      ['हम हुए, तुम हुए कि मीर हुए', 'मूल शायरी', 'हम मिले भी तो कहानी अधूरी रह गई<br>एक हँसी थी जो अचानक ही ज़रूरी रह गई<br>वक़्त ने छीन लिया साथ का छोटा सा पल<br>याद लेकिन वही पल उम्र भर की रह गई'],
+      ['क्या कहूँ तुम से मैं कि क्या है इश्क़', 'मूल शायरी', 'इश्क़ को नाम दिया, दर्द को अपना जाना<br>तेरी ख़ामोश निगाहों को भी सपना जाना<br>तू नहीं पास तो क्या, याद तो बाकी है अभी<br>दिल ने हर हाल में तुझको ही अपना जाना'],
+      ['इश्क़ इक मीर भारी पत्थर है', 'मूल शायरी', 'पत्थरों जैसी थी दुनिया, दिल पिघलता ही रहा<br>तेरा चेहरा मेरी आँखों में चमकता ही रहा<br>हमने चाहा था भुला दें तुझे बीते कल की तरह<br>पर ये दिल था कि तेरा नाम ही लिखता ही रहा'],
+      ['मीर अमदन भी कोई मरता है', 'मूल शायरी', 'मौत की बात न कर, ज़िंदगी बाकी है अभी<br>दिल में जीने की कोई आरज़ू बाकी है अभी<br>जो गया लौट के शायद कभी आ जाए फिर<br>दर खुला रख, कोई आस लगी बाकी है अभी'],
+      ['फिरते हैं मीर ख़्वार, कोई पूछता नहीं', 'मूल शायरी', 'ख़त में लफ़्ज़ों से कहाँ दिल का पता मिलता है<br>दूर रहकर भी कोई दिल में सदा मिलता है<br>तू अगर पास नहीं, फिर भी कमी क्या है यहाँ<br>तेरी यादों में मुझे रोज़ ख़ुदा मिलता है'],
+      ['जब कि पहलू से यार उठता है', 'मूल शायरी', 'तेरे पास होने का एहसास बहुत है<br>दूर होकर भी तू दिल के पास बहुत है<br>लोग कहते हैं कि भूलो उसे आसान होगा<br>मगर इस दिल को तेरा विश्वास बहुत है'],
+      ['अश्क आँखों में कब नहीं आता', 'मूल शायरी', 'ग़म-ए-हयात को हँसकर भी सहा जाता है<br>टूट जाए कोई तो फिर भी जिया जाता है<br>रास्ते चाहे बदल जाएँ हमारे लेकिन<br>सच्चा रिश्ता हो तो दिल में रहा जाता है'],
+      ['लगता नहीं है दिल मेरा उजड़े दयार में', 'मूल शायरी', 'जो कहा था कभी, वो याद रहा उम्र भर<br>तेरी आवाज़ का एहसास रहा उम्र भर<br>तूने पूछा भी नहीं हाल मेरा फिर भी<br>तेरा इंतज़ार मेरे साथ रहा उम्र भर'],
+      ['न किसी की आँख का नूर हूँ, न किसी के दिल का क़रार हूँ', 'मूल शायरी', 'वादे टूटे तो कोई शोर नहीं होने दिया<br>हमने आँखों को भी मजबूर नहीं होने दिया<br>दिल ने हर दर्द को चुपचाप सहा है लेकिन<br>तेरी यादों को कभी दूर नहीं होने दिया'],
+      ['कितना है बदनसीब ज़फ़र दफ़्न के लिए', 'मूल शायरी', 'तेरी तस्वीर से बातें भी किया करते हैं<br>रात के सन्नाटे में तुझको पुकारा करते हैं<br>तू नहीं जानता कितना है असर तेरा यहाँ<br>हम तेरा नाम लेकर भी जिया करते हैं'],
+      ['उम्र-ए-दराज़ माँग के लाए थे चार दिन', 'मूल शायरी', 'जिसको चाहा वही समझे न हमारी बातें<br>दिल की गहराई में दबती रहीं सारी बातें<br>एक दिन शायद उसे भी ये ख़बर हो जाए<br>कितनी सच्ची थीं हमारी वो इशारी बातें'],
+      ['बात करनी मुझे मुश्किल कभी ऐसी तो न थी', 'मूल शायरी', 'मोहब्बत में कभी हिसाब नहीं होता है<br>दिल का सौदा भी कोई ख़्वाब नहीं होता है<br>जिसके हिस्से में वफ़ा आए वही जानता है<br>हर किसी को ये नसीब नहीं होता है'],
+      ['वो जो हम में तुम में क़रार था, तुम्हें याद हो कि न याद हो', 'मूल शायरी', 'इश्क़ पत्थर है मगर दिल से उठाया जाए<br>दर्द जितना भी हो हँसकर निभाया जाए<br>तू अगर साथ नहीं, याद तो साथ रहे<br>इस तरह प्यार को दिल में सजाया जाए'],
+      ['तुम मेरे पास होते हो गोया', 'मूल शायरी', 'कभी हम भी किसी की याद हुआ करते थे<br>उसके होंठों की फ़रियाद हुआ करते थे<br>आज ख़ामोश हैं, दुनिया हमें भूली होगी<br>एक ज़माने में हम आबाद हुआ करते थे'],
+      ['असर उस को ज़रा नहीं होता', 'मूल शायरी', 'शहर में घूमते हैं लोग मगर तन्हा हैं<br>सबके चेहरे पे कई रंग मगर तन्हा हैं<br>जिसे अपना कहा उसने भी समझा न हमें<br>दिल के कमरे में कई ख़्वाब मगर तन्हा हैं'],
+      ['किस तरह से मिटेगा ग़म-ए-हयात', 'मूल शायरी', 'आँख नम हो तो उसे कमज़ोरी न समझो<br>दिल के एहसास को मजबूरी न समझो<br>कुछ रिश्ते बिना बोले भी निभते हैं यहाँ<br>हर ख़ामोशी को कोई दूरी न समझो'],
+      ['वो जो इसरार था तुम्हें हम पर', 'मूल शायरी', 'आँखों में ठहरा हुआ एक सवाल रहता है<br>तेरी यादों का हमेशा ही ख़याल रहता है<br>दूरियाँ चाहे बढ़ें, दिल नहीं बदलता मेरा<br>तेरा नाम ही मेरे दिल में बहाल रहता है'],
+      ['ग़ज़ब किया तेरे वादे पे एतबार किया', 'मूल शायरी', 'दिल ने जब भी तुझे आवाज़ लगाई चुपके<br>याद आई तेरी हर बात पुरानी चुपके<br>हमने दुनिया से छुपाकर तुझे चाहा है बहुत<br>और रोए हैं कई बार मुस्कुराई चुपके'],
+      ['लुत्फ़ वो इश्क़ में पाए हैं कि जी जानता है', 'मूल शायरी', 'कभी वादा किया था कि साथ रहोगे तुम<br>आज कहते हो कि बस याद रहोगे तुम<br>दिल को आदत थी तुम्हें अपना समझने की<br>अब बताओ किस तरह दूर रहोगे तुम'],
+      ['अच्छे ईसा हो मरीज़ों का ख़याल अच्छा है', 'मूल शायरी', 'तेरे आने की ख़बर आज भी अच्छी लगती<br>तेरी बातों की महक आज भी अच्छी लगती<br>तू बदल जाए तो दुनिया बदल जाती है<br>तेरी हर छोटी अदा आज भी अच्छी लगती'],
+      ['तुमको चाहा तो ख़ता क्या है, बता दो मुझको', 'मूल शायरी', 'वो जो हँसते हुए मिलने का हुनर रखते हैं<br>अंदर से कितने ही मौसम का सफ़र रखते हैं<br>हमने पूछा तो बस इतना कहा, ठीक हैं हम<br>लोग दिल में कई तूफ़ान मगर रखते हैं'],
+      ['न जाने क्या था जो आँखों से आँख मिल न सकी', 'मूल शायरी', 'वक़्त के साथ कई चेहरे बदल जाते हैं<br>कुछ पुराने से मगर दिल में उतर जाते हैं<br>नाम मिट जाएँ तो मिट जाएँ किताबों से मगर<br>कुछ रिश्ते साँस की तरह साथ गुज़र जाते हैं'],
+      ['जिसे इश्क़ का तीर कारी लगे', 'मूल शायरी', 'तेरे वादों का भरोसा भी ग़ज़ब था मेरा<br>हर फ़रेब में भी चेहरा था अजब था मेरा<br>तूने छोड़ा तो बहुत देर से समझ आया ये<br>जिसे अपना कहा वही ख़्वाब था मेरा'],
+      ['किया मुझ इश्क़ ने ज़ालिम क़रीब आहिस्ता आहिस्ता', 'मूल शायरी', 'मुस्कुराने की वजह आज भी तू लगता है<br>दर्द में जैसे कोई मीठा सा जादू लगता है<br>लोग कहते हैं मोहब्बत तो पुरानी होगी<br>दिल को हर रोज़ मगर आज भी नया लगता है'],
+      ['पिया बाज प्याला पिया जाए ना', 'मूल शायरी', 'दिल की महफ़िल में तेरी याद सजाई हमने<br>रात भर चाँद से तेरी ही सुनाई हमने<br>तूने पूछा नहीं हाल, यही अफ़सोस रहा<br>फिर भी हर दर्द को हँसकर ही निभाई हमने'],
+      ['सजन तुम सुख सेती खोलो नक़ाब आहिस्ता आहिस्ता', 'मूल शायरी', 'हुस्न देखा तो कई रंग नज़र आए हमें<br>तेरी आँखों में नए ख़्वाब नज़र आए हमें<br>उम्र गुज़री मगर ये राज़ समझ न सके<br>क्यों तेरे सामने सब कम नज़र आए हमें'],
+      ['हुस्न के समझने को उम्र चाहिए जानाँ', 'मूल शायरी', 'रात की चुप में तेरी याद का उजाला है<br>दिल के वीराने में बस तेरा ही हवाला है<br>जो भी टूटा है उसे वक़्त सँभाल लेता है<br>इश्क़ फिर भी दिल का सबसे हसीं उजाला है']
+    ].map(([title, author, fullText]) => ({ title, author, fullText }));
+    let currentGhazal = 0, ghazalTimer;
+    function renderGhazal() {
+      const item = allGhazals[currentGhazal];
+      const text = document.getElementById('ghazalCouplet');
+      const title = document.getElementById('ghazalTitle');
+      title.textContent = item.title;
+      text.textContent = item.fullText ? item.fullText.replace(/<br>/g, '\n') : '';
+      text.style.display = item.fullText ? 'block' : 'none';
+      document.getElementById('ghazalAuthor').textContent = item.author;
+      const stage = document.getElementById('ghazalStage');
+      stage.classList.remove('is-changing');
+      void stage.offsetWidth;
+      stage.classList.add('is-changing');
+    }
+    function resetGhazalTimer() { clearInterval(ghazalTimer); ghazalTimer = setInterval(() => { currentGhazal = (currentGhazal + 1) % allGhazals.length; renderGhazal(); }, 10000); }
+    function nextGhazal() { currentGhazal = (currentGhazal + 1) % allGhazals.length; renderGhazal(); resetGhazalTimer(); }
+    function previousGhazal() { currentGhazal = (currentGhazal - 1 + allGhazals.length) % allGhazals.length; renderGhazal(); resetGhazalTimer(); }
+    function randomGhazal() { currentGhazal = Math.floor(Math.random() * allGhazals.length); renderGhazal(); resetGhazalTimer(); }
+    renderGhazal();
+    resetGhazalTimer();
+    const PLAYLIST_ID = 'PLYok1xQGKWWY';
+    let musicPlayer, playerReady = false, isPlaying = false, musicRequested = false;
+
+    function onYouTubeIframeAPIReady() {
+      musicPlayer = new YT.Player('ytMusicPlayer', {
+        height: '200',
+        width: '200',
+        playerVars: {
+          listType: 'playlist',
+          list: PLAYLIST_ID,
+          controls: 0,
+          playsinline: 1,
+          rel: 0,
+          origin: window.location.origin
+        },
+        events: {
+          onReady: event => {
+            playerReady = true;
+            event.target.cuePlaylist({ listType: 'playlist', list: PLAYLIST_ID });
+            document.getElementById('playButton').disabled = false;
+            document.getElementById('playButton').title = 'ग़ज़ल प्लेलिस्ट चलाएं';
+            if (musicRequested) {
+              setTimeout(() => {
+                event.target.playVideo();
+                musicRequested = false;
+              }, 150);
+            }
+          },
+          onStateChange: event => {
+            isPlaying = event.data === YT.PlayerState.PLAYING;
+            document.getElementById('playButton').textContent = isPlaying ? 'Ⅱ' : '▶';
+          },
+          onError: event => {
+            console.warn('YouTube player error:', event.data);
+            document.getElementById('playButton').textContent = '▶';
+          }
+        }
+      });
+    }
+
+    function toggleMusic() {
+      if (!playerReady) {
+        musicRequested = true;
+        document.getElementById('playButton').textContent = '…';
+        return;
+      }
+      if (isPlaying) {
+        musicPlayer.pauseVideo();
+      } else {
+        musicPlayer.playVideo();
+      }
+    }
+
+    function nextTrack() {
+      if (playerReady) musicPlayer.nextVideo();
+    }
+  </script>
+</body>
+</html>
