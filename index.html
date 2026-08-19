@@ -60,10 +60,10 @@
       <p class="intro">पुरानी महफ़िलों की रौनक, नर्म धुनों का साथ और दिल में उतर जाने वाले अल्फ़ाज़ — सब एक जगह।</p>
       <div class="mini-player" aria-label="ग़ज़ल प्लेलिस्ट प्लेयर">
         <div class="album-art"></div>
-        <div class="track"><strong>ग़ज़ल की महफ़िल</strong><small>YouTube Playlist</small><div class="progress"><i></i></div></div>
+        <div class="track"><strong>ग़ज़ल की महफ़िल</strong><small>YouTube Song</small><div class="progress"><i></i></div></div>
         <button class="round-play" id="playButton" onclick="toggleMusic()" aria-label="प्लेलिस्ट चलाएं">▶</button>
         <button class="next-track" onclick="nextTrack()" aria-label="अगली ग़ज़ल">⏭</button>
-        <a class="playlist-pill" href="https://youtube.com/playlist?list=PLJeNQvgQ4Sl-uomVtOARCoEmMPJUkZH8p&si=E3NIX9F0XG63xw-j" target="_blank" rel="noopener">☷ Playlist</a>
+        <a class="playlist-pill" href="https://youtu.be/izlPLKobJGA?si=_dQ9dnhoOn2BfV6k" target="_blank" rel="noopener">▶ Song</a>
       </div>
     </div>
   </header>
@@ -119,9 +119,9 @@
     function onYouTubeIframeAPIReady() {
       musicPlayer = new YT.Player('ytMusicPlayer', {
         height: '200', width: '200',
-        playerVars: { listType: 'playlist', list: 'PLJeNQvgQ4Sl-uomVtOARCoEmMPJUkZH8p', controls: 0, playsinline: 1, rel: 0, enablejsapi: 1 },
+        playerVars: { videoId: 'izlPLKobJGA', controls: 0, playsinline: 1, rel: 0, enablejsapi: 1, origin: window.location.origin },
         events: {
-          onReady: event => { playerReady = true; event.target.cuePlaylist({ listType: 'playlist', list: 'PLJeNQvgQ4Sl-uomVtOARCoEmMPJUkZH8p' }); },
+          onReady: event => { playerReady = true; event.target.cueVideoById('izlPLKobJGA'); },
           onStateChange: event => {
             isPlaying = event.data === YT.PlayerState.PLAYING;
             document.getElementById('playButton').textContent = isPlaying ? 'Ⅱ' : '▶';
@@ -130,10 +130,10 @@
       });
     }
     function toggleMusic() {
-      if (!playerReady) { window.open('https://youtube.com/playlist?list=PLJeNQvgQ4Sl-uomVtOARCoEmMPJUkZH8p&si=E3NIX9F0XG63xw-j', '_blank', 'noopener'); return; }
+      if (!playerReady) { window.open('https://youtu.be/izlPLKobJGA?si=_dQ9dnhoOn2BfV6k', '_blank', 'noopener'); return; }
       if (isPlaying) musicPlayer.pauseVideo(); else musicPlayer.playVideo();
     }
-    function nextTrack() { if (playerReady) musicPlayer.nextVideo(); }
+    function nextTrack() { if (playerReady) musicPlayer.loadVideoById('izlPLKobJGA'); }
   </script>
 </body>
 </html>
