@@ -32,7 +32,24 @@
     .mini-player { max-width:470px; margin:18px 0 0; padding:13px 18px; display:flex; align-items:center; gap:13px; border-radius:25px; background:linear-gradient(120deg,rgba(7,12,21,.95),rgba(18,24,35,.9)); box-shadow:0 10px 28px rgba(0,0,0,.32); }
     .album-art { width:49px; height:49px; flex:0 0 49px; border-radius:50%; background:url('ghazal-bg.png') center/cover; border:2px solid rgba(255,255,255,.18); }
     .track { min-width:0; flex:1; }.track strong { display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:15px; }.track small { display:block; color:#c5c9d1; font-size:12px; }.progress { margin-top:5px; height:4px; overflow:hidden; border-radius:5px; background:#4b5360; cursor:pointer; position:relative; }.progress:hover { height:6px; margin-top:4px; }.progress i { display:block; width:0%; height:100%; background:#eef0f5; pointer-events:none; }
-    .round-play { width:47px; height:47px; min-width:47px; padding:0; border-radius:50%; background:#fff; color:#151b25; font-size:17px; }.round-play:hover { background:#fff; color:#151b25; }.next-track { padding:6px; background:transparent; color:#fff; font-size:20px; }.next-track:hover { background:transparent; color:#f1c47f; }.playlist-pill { padding:5px 10px; border-radius:16px; background:rgba(255,255,255,.12); color:#fff; font:600 12px Hind,sans-serif; text-decoration:none; white-space:nowrap; }.yt-audio-source, #ytMusicPlayer { position:absolute; left:-10000px; top:0; width:200px !important; height:200px !important; overflow:hidden; pointer-events:none; }
+    .round-play { width:47px; height:47px; min-width:47px; padding:0; border-radius:50%; background:#fff; color:#151b25; font-size:17px; }.round-play:hover { background:#fff; color:#151b25; }.next-track { padding:6px; background:transparent; color:#fff; font-size:20px; }.next-track:hover { background:transparent; color:#f1c47f; }.playlist-pill { padding:5px 10px; border-radius:16px; background:rgba(255,255,255,.12); color:#fff; font:600 12px Hind,sans-serif; text-decoration:none; white-space:nowrap; }.playlist-toggle { padding:5px 10px; border-radius:16px; background:rgba(255,255,255,.12); color:#fff; font:600 12px Hind,sans-serif; white-space:nowrap; }.playlist-toggle:hover { background:rgba(255,255,255,.24); }.yt-audio-source, #ytMusicPlayer { position:absolute; left:-10000px; top:0; width:200px !important; height:200px !important; overflow:hidden; pointer-events:none; }
+    .playlist-panel { position:fixed; inset:0; z-index:999; display:flex; align-items:flex-end; justify-content:center; background:rgba(10,6,4,.55); opacity:0; pointer-events:none; transition:opacity .25s ease; }
+    .playlist-panel.is-open { opacity:1; pointer-events:auto; }
+    .playlist-panel-inner { width:min(540px,100%); max-height:74vh; display:flex; flex-direction:column; padding:20px; border-radius:18px 18px 0 0; background:#20120c; color:#fff8ec; box-shadow:0 -14px 34px rgba(0,0,0,.4); transform:translateY(14px); transition:transform .25s ease; }
+    .playlist-panel.is-open .playlist-panel-inner { transform:translateY(0); }
+    .playlist-panel-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+    .playlist-panel-head strong { font:600 19px 'Noto Serif Devanagari',serif; color:#f3cd8f; }
+    .panel-close { background:transparent; padding:5px 11px; color:#fff8ec; font-size:16px; }
+    .panel-close:hover { background:rgba(255,255,255,.12); }
+    .playlist-list { list-style:none; margin:0; padding:0; overflow-y:auto; flex:1; }
+    .playlist-item { display:flex; align-items:center; gap:12px; padding:11px 9px; border-radius:9px; cursor:pointer; }
+    .playlist-item:hover { background:rgba(255,255,255,.08); }
+    .playlist-item.is-active { background:rgba(233,190,119,.2); }
+    .playlist-item.is-active .pl-title { color:#f3cd8f; }
+    .pl-num { flex:0 0 26px; text-align:center; color:#b79a7a; font-size:13px; }
+    .pl-title { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:15px; }
+    .playlist-empty { padding:22px 8px; text-align:center; color:#c8ab88; font-size:14px; }
+    @media (max-width:760px) { .playlist-panel-inner { max-height:80vh; } }
     section { max-width:1180px; margin:auto; padding:76px 26px; }
     .section-kicker { color:var(--wine); font-weight:700; letter-spacing:1.3px; font-size:13px; }
     h2 { margin:7px 0 27px; font:700 clamp(28px,4vw,43px) 'Noto Serif Devanagari',serif; }
@@ -68,11 +85,21 @@
         <button class="next-track" onclick="previousTrack()" aria-label="पिछली ग़ज़ल">⏮</button>
         <button class="round-play" id="playButton" onclick="toggleMusic()" aria-label="प्लेलिस्ट चलाएं">▶</button>
         <button class="next-track" onclick="nextTrack()" aria-label="अगली ग़ज़ल">⏭</button>
+        <button class="playlist-toggle" type="button" onclick="togglePlaylistPanel()" aria-label="सभी ग़ज़लें देखें">☰ सूची</button>
         <a class="playlist-pill" href="https://youtube.com/playlist?list=PLBbqmIdfz8g0" target="_blank" rel="noopener">▶ Song</a>
       </div>
     </div>
   </header>
   <div id="ytMusicPlayer" class="yt-audio-source" aria-hidden="true"></div>
+  <div class="playlist-panel" id="playlistPanel" aria-hidden="true">
+    <div class="playlist-panel-inner">
+      <div class="playlist-panel-head">
+        <strong>प्लेलिस्ट · अपनी पसंद की ग़ज़ल चुनें</strong>
+        <button class="panel-close" type="button" onclick="togglePlaylistPanel()" aria-label="बंद करें">✕</button>
+      </div>
+      <ul class="playlist-list" id="playlistList"><li class="playlist-empty">प्लेयर लोड हो रहा है, कृपया प्रतीक्षा करें…</li></ul>
+    </div>
+  </div>
   <section id="mehfil">
     <div class="section-kicker">क्यों ग़ज़ल की दुनिया?</div>
     <h2>दिल की बात, बेहतरीन अंदाज़ में</h2>
@@ -120,7 +147,8 @@
     function randomGhazal() { currentGhazal = Math.floor(Math.random() * allGhazals.length); renderGhazal(); resetGhazalTimer(); }
     renderGhazal();
     resetGhazalTimer();
-    let musicPlayer, playerReady = false, isPlaying = false, progressTimer, pendingPlay = false, readyTimeoutId;
+    let musicPlayer, playerReady = false, isPlaying = false, progressTimer, pendingPlay = false, readyTimeoutId, hasStartedRandom = false;
+    let playlistIds = [], playlistLoaded = false, playlistPanelOpen = false;
     function onYouTubeIframeAPIReady() {
       musicPlayer = new YT.Player('ytMusicPlayer', {
         height: '200', width: '200',
@@ -129,7 +157,9 @@
           onReady: event => {
             playerReady = true;
             clearTimeout(readyTimeoutId);
-            if (pendingPlay) { pendingPlay = false; musicPlayer.playVideo(); document.getElementById('playButton').textContent = 'Ⅱ'; }
+            musicPlayer.setShuffle(true);
+            if (pendingPlay) { pendingPlay = false; playRandomStart(); document.getElementById('playButton').textContent = 'Ⅱ'; }
+            if (playlistPanelOpen) loadPlaylistPanel();
           },
           onStateChange: event => {
             isPlaying = event.data === YT.PlayerState.PLAYING;
@@ -137,10 +167,17 @@
             if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.CUED) updateTrackTitle();
             if (isPlaying) { clearInterval(progressTimer); progressTimer = setInterval(updateProgress, 500); }
             else clearInterval(progressTimer);
+            updatePlaylistActiveHighlight();
           },
           onError: event => { if (playerReady) musicPlayer.nextVideo(); }
         }
       });
+    }
+    function playRandomStart() {
+      hasStartedRandom = true;
+      const list = musicPlayer.getPlaylist();
+      if (list && list.length) musicPlayer.playVideoAt(Math.floor(Math.random() * list.length));
+      else musicPlayer.playVideo();
     }
     function toggleMusic() {
       if (!playerReady) {
@@ -152,10 +189,53 @@
         }, 8000);
         return;
       }
-      if (isPlaying) musicPlayer.pauseVideo(); else musicPlayer.playVideo();
+      if (isPlaying) { musicPlayer.pauseVideo(); return; }
+      if (!hasStartedRandom) playRandomStart(); else musicPlayer.playVideo();
     }
-    function nextTrack() { if (playerReady) musicPlayer.nextVideo(); }
-    function previousTrack() { if (playerReady) musicPlayer.previousVideo(); }
+    function nextTrack() { if (playerReady) { hasStartedRandom = true; musicPlayer.nextVideo(); } }
+    function previousTrack() { if (playerReady) { hasStartedRandom = true; musicPlayer.previousVideo(); } }
+    function playSongAt(index) {
+      if (!playerReady) return;
+      hasStartedRandom = true;
+      musicPlayer.playVideoAt(index);
+      document.getElementById('playButton').textContent = 'Ⅱ';
+    }
+    function togglePlaylistPanel() {
+      const panel = document.getElementById('playlistPanel');
+      playlistPanelOpen = !panel.classList.contains('is-open');
+      panel.classList.toggle('is-open', playlistPanelOpen);
+      panel.setAttribute('aria-hidden', playlistPanelOpen ? 'false' : 'true');
+      if (playlistPanelOpen) loadPlaylistPanel();
+    }
+    function loadPlaylistPanel() {
+      const list = document.getElementById('playlistList');
+      if (!playerReady) { list.innerHTML = '<li class="playlist-empty">प्लेयर लोड हो रहा है, कृपया प्रतीक्षा करें…</li>'; return; }
+      if (playlistLoaded) { updatePlaylistActiveHighlight(); return; }
+      playlistIds = musicPlayer.getPlaylist() || [];
+      if (!playlistIds.length) { list.innerHTML = '<li class="playlist-empty">प्लेलिस्ट लोड नहीं हो सकी।</li>'; return; }
+      playlistLoaded = true;
+      list.innerHTML = '';
+      playlistIds.forEach((id, idx) => {
+        const li = document.createElement('li');
+        li.className = 'playlist-item';
+        li.dataset.index = idx;
+        li.innerHTML = '<span class="pl-num">' + (idx + 1) + '</span><span class="pl-title">गीत लोड हो रहा है…</span>';
+        li.addEventListener('click', () => playSongAt(idx));
+        list.appendChild(li);
+        fetch('https://www.youtube.com/oembed?url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + id) + '&format=json')
+          .then(res => res.ok ? res.json() : null)
+          .then(data => { if (data && data.title) li.querySelector('.pl-title').textContent = data.title; })
+          .catch(() => { li.querySelector('.pl-title').textContent = 'गीत ' + (idx + 1); });
+      });
+      updatePlaylistActiveHighlight();
+    }
+    function updatePlaylistActiveHighlight() {
+      if (!playerReady) return;
+      const idx = musicPlayer.getPlaylistIndex ? musicPlayer.getPlaylistIndex() : -1;
+      document.querySelectorAll('.playlist-item').forEach(li => {
+        li.classList.toggle('is-active', Number(li.dataset.index) === idx);
+      });
+    }
     function updateTrackTitle() {
       try {
         const data = musicPlayer.getVideoData();
@@ -175,6 +255,9 @@
       document.getElementById('progressFill').style.width = pct + '%';
       document.getElementById('trackTime').textContent = formatTime(current) + ' / ' + formatTime(duration);
     }
+    document.getElementById('playlistPanel').addEventListener('click', function(e) {
+      if (e.target === this) togglePlaylistPanel();
+    });
     document.getElementById('progressBar').addEventListener('click', function(e) {
       if (!playerReady) return;
       const rect = this.getBoundingClientRect();
