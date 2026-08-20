@@ -32,7 +32,7 @@
     .mini-player { max-width:470px; margin:18px 0 0; padding:13px 18px; display:flex; align-items:center; gap:13px; border-radius:25px; background:linear-gradient(120deg,rgba(7,12,21,.95),rgba(18,24,35,.9)); box-shadow:0 10px 28px rgba(0,0,0,.32); }
     .album-art { width:49px; height:49px; flex:0 0 49px; border-radius:50%; background:url('ghazal-bg.png') center/cover; border:2px solid rgba(255,255,255,.18); }
     .track { min-width:0; flex:1; }.track strong { display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:15px; }.track small { display:block; color:#c5c9d1; font-size:12px; }.progress { margin-top:5px; height:4px; overflow:hidden; border-radius:5px; background:#4b5360; cursor:pointer; position:relative; }.progress:hover { height:6px; margin-top:4px; }.progress i { display:block; width:0%; height:100%; background:#eef0f5; pointer-events:none; }
-    .round-play { width:47px; height:47px; min-width:47px; padding:0; border-radius:50%; background:#fff; color:#151b25; font-size:17px; }.round-play:hover { background:#fff; color:#151b25; }.next-track { padding:6px; background:transparent; color:#fff; font-size:20px; }.next-track:hover { background:transparent; color:#f1c47f; }.playlist-pill { padding:5px 10px; border-radius:16px; background:rgba(255,255,255,.12); color:#fff; font:600 12px Hind,sans-serif; text-decoration:none; white-space:nowrap; }.playlist-toggle { padding:5px 10px; border-radius:16px; background:rgba(255,255,255,.12); color:#fff; font:600 12px Hind,sans-serif; white-space:nowrap; }.playlist-toggle:hover { background:rgba(255,255,255,.24); }.yt-audio-source, #ytMusicPlayer { position:absolute; left:-10000px; top:0; width:200px !important; height:200px !important; overflow:hidden; pointer-events:none; }
+    .round-play { width:47px; height:47px; min-width:47px; padding:0; border-radius:50%; background:#fff; color:#151b25; font-size:17px; }.round-play:hover { background:#fff; color:#151b25; }.round-play.is-loading { background:#fff; border:3px solid #d8dbe1; border-top-color:#151b25; animation:playerSpin .8s linear infinite; }@keyframes playerSpin { to { transform:rotate(360deg); } }.next-track { padding:6px; background:transparent; color:#fff; font-size:20px; }.next-track:hover { background:transparent; color:#f1c47f; }.playlist-pill { padding:5px 10px; border-radius:16px; background:rgba(255,255,255,.12); color:#fff; font:600 12px Hind,sans-serif; text-decoration:none; white-space:nowrap; }.playlist-toggle { padding:5px 10px; border-radius:16px; background:rgba(255,255,255,.12); color:#fff; font:600 12px Hind,sans-serif; white-space:nowrap; }.playlist-toggle:hover { background:rgba(255,255,255,.24); }.yt-audio-source, #ytMusicPlayer { position:absolute; left:-10000px; top:0; width:200px !important; height:200px !important; overflow:hidden; pointer-events:none; }
     .playlist-panel { position:fixed; inset:0; z-index:999; display:flex; align-items:flex-end; justify-content:center; background:rgba(10,6,4,.55); opacity:0; pointer-events:none; transition:opacity .25s ease; }
     .playlist-panel.is-open { opacity:1; pointer-events:auto; }
     .playlist-panel-inner { width:min(540px,100%); max-height:74vh; display:flex; flex-direction:column; padding:20px; border-radius:18px 18px 0 0; background:#20120c; color:#fff8ec; box-shadow:0 -14px 34px rgba(0,0,0,.4); transform:translateY(14px); transition:transform .25s ease; }
@@ -147,7 +147,7 @@
     function randomGhazal() { currentGhazal = Math.floor(Math.random() * allGhazals.length); renderGhazal(); resetGhazalTimer(); }
     renderGhazal();
     resetGhazalTimer();
-    let musicPlayer, playerReady = false, isPlaying = false, progressTimer, pendingPlay = false, readyTimeoutId, hasStartedRandom = false;
+    let musicPlayer, playerReady = false, isPlaying = false, progressTimer, pendingPlay = false, readyTimeoutId, readyRetryTimeoutId, hasStartedRandom = false;
     let playlistIds = [], playlistLoaded = false, playlistPanelOpen = false;
     function onYouTubeIframeAPIReady() {
       musicPlayer = new YT.Player('ytMusicPlayer', {
@@ -157,8 +157,9 @@
           onReady: event => {
             playerReady = true;
             clearTimeout(readyTimeoutId);
+            clearTimeout(readyRetryTimeoutId);
             musicPlayer.setShuffle(true);
-            if (pendingPlay) { pendingPlay = false; playRandomStart(); document.getElementById('playButton').textContent = 'Ⅱ'; }
+            if (pendingPlay) { pendingPlay = false; setLoadingState(false); playRandomStart(); document.getElementById('playButton').textContent = 'Ⅱ'; }
             if (playlistPanelOpen) loadPlaylistPanel();
           },
           onStateChange: event => {
@@ -179,14 +180,31 @@
       if (list && list.length) musicPlayer.playVideoAt(Math.floor(Math.random() * list.length));
       else musicPlayer.playVideo();
     }
+    function setLoadingState(on, message) {
+      const btn = document.getElementById('playButton');
+      const timeEl = document.getElementById('trackTime');
+      btn.classList.toggle('is-loading', on);
+      if (on) { btn.textContent = ''; timeEl.dataset.prev = timeEl.textContent; timeEl.textContent = message || 'लोड हो रहा है…'; }
+      else { btn.textContent = '▶'; if (timeEl.dataset.prev) { timeEl.textContent = timeEl.dataset.prev; delete timeEl.dataset.prev; } }
+    }
     function toggleMusic() {
       if (!playerReady) {
         if (pendingPlay) return;
         pendingPlay = true;
-        document.getElementById('playButton').textContent = '…';
+        setLoadingState(true, 'गाना लोड हो रहा है, कृपया प्रतीक्षा करें…');
+        clearTimeout(readyTimeoutId);
         readyTimeoutId = setTimeout(() => {
-          if (!playerReady) { pendingPlay = false; window.open('https://youtube.com/playlist?list=PLBbqmIdfz8g0', '_blank', 'noopener'); document.getElementById('playButton').textContent = '▶'; }
-        }, 8000);
+          if (!playerReady) setLoadingState(true, 'अभी भी लोड हो रहा है, थोड़ा और इंतज़ार करें…');
+        }, 6000);
+        readyRetryTimeoutId = setTimeout(() => {
+          if (!playerReady) {
+            pendingPlay = false;
+            setLoadingState(false);
+            const timeEl = document.getElementById('trackTime');
+            timeEl.textContent = 'लोड नहीं हो सका, दोबारा प्ले दबाएं';
+            setTimeout(() => { if (!isPlaying) timeEl.textContent = '0:00 / 0:00'; }, 4000);
+          }
+        }, 20000);
         return;
       }
       if (isPlaying) { musicPlayer.pauseVideo(); return; }
