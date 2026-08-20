@@ -50,6 +50,13 @@
     .pl-title { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:15px; }
     .playlist-empty { padding:22px 8px; text-align:center; color:#c8ab88; font-size:14px; }
     @media (max-width:760px) { .playlist-panel-inner { max-height:80vh; } }
+    .coffee-btn { position:fixed; right:22px; bottom:22px; z-index:900; display:flex; align-items:center; gap:9px; padding:12px 18px 12px 14px; border-radius:32px; background:linear-gradient(120deg,#e9be77,#c98a3d); color:#241205; text-decoration:none; font:700 14px Hind,sans-serif; box-shadow:0 10px 26px rgba(0,0,0,.35); }
+    .coffee-btn:hover { filter:brightness(1.06); }
+    .coffee-icon { font-size:22px; line-height:1; }
+    .coffee-text { white-space:nowrap; }
+    @keyframes coffeeShake { 0%,100% { transform:rotate(0) translateX(0); } 10% { transform:rotate(-9deg) translateX(-2px); } 20% { transform:rotate(8deg) translateX(2px); } 30% { transform:rotate(-7deg); } 40% { transform:rotate(6deg); } 50% { transform:rotate(-4deg); } 60% { transform:rotate(3deg); } 70% { transform:rotate(-2deg); } 80% { transform:rotate(1deg); } 90%,100% { transform:rotate(0); } }
+    .coffee-shake { animation:coffeeShake .7s ease; }
+    @media (max-width:760px) { .coffee-btn { right:14px; bottom:14px; padding:11px; } .coffee-text { display:none; } .coffee-icon { font-size:24px; } }
     section { max-width:1180px; margin:auto; padding:76px 26px; }
     .section-kicker { color:var(--wine); font-weight:700; letter-spacing:1.3px; font-size:13px; }
     h2 { margin:7px 0 27px; font:700 clamp(28px,4vw,43px) 'Noto Serif Devanagari',serif; }
@@ -284,6 +291,18 @@
       musicPlayer.seekTo(duration * pct, true);
       updateProgress();
     });
+  <a class="coffee-btn" id="coffeeBtn" href="https://rzp.io/rzp/vGBZTIC" target="_blank" rel="noopener" aria-label="मुझे एक कॉफ़ी पिलाएं">
+    <span class="coffee-icon">☕</span>
+    <span class="coffee-text">Buy me a coffee</span>
+  </a>
+  <script>
+    document.getElementById('coffeeBtn').classList.add('coffee-shake');
+    setInterval(() => {
+      const btn = document.getElementById('coffeeBtn');
+      btn.classList.remove('coffee-shake');
+      void btn.offsetWidth;
+      btn.classList.add('coffee-shake');
+    }, 30000);
   </script>
 </body>
 </html>
