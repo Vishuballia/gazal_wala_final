@@ -70,6 +70,74 @@
     .about-dialogue { width:min(760px,100%); margin:31px auto 0; padding:22px; display:grid; grid-template-columns:70px 1fr auto; align-items:center; gap:18px; text-align:left; border:1px solid rgba(111,37,27,.28); border-radius:16px; background:rgba(255,250,240,.86); box-shadow:0 12px 28px rgba(83,45,18,.13); position:relative; }.about-dialogue:before { content:'“'; position:absolute; top:-27px; left:99px; color:var(--wine); font:700 67px Georgia,serif; }.insta-avatar { width:70px; height:70px; display:grid; place-items:center; border:3px solid #fff8ec; border-radius:50%; color:#fff; font:700 29px 'Noto Serif Devanagari',serif; background:linear-gradient(145deg,#833ab4,#fd1d1d 55%,#fcb045); box-shadow:0 4px 11px rgba(111,37,27,.25); }.insta-text small { color:var(--wine); font-weight:700; letter-spacing:.7px; }.insta-text h3 { margin:2px 0; font:600 22px 'Noto Serif Devanagari',serif; }.insta-text p { margin:0; font-size:15px; line-height:1.45; }.insta-link { display:inline-flex; align-items:center; justify-content:center; min-height:43px; padding:0 16px; border-radius:7px; color:#fff9ed; text-decoration:none; font-weight:600; white-space:nowrap; background:linear-gradient(110deg,#833ab4,#e1306c,#f77737); }.insta-link:hover { transform:translateY(-1px); }
     footer { background:#1c0e09; padding:22px; text-align:center; color:#d8b98b; }
     @media (max-width:760px) { .nav { height:68px; padding:0 18px; }.brand { font-size:22px; }.nav-links a:not(.login) { display:none; }.nav-links { gap:0; }.hero { min-height:650px; }.hero-copy { padding:74px 22px 45px; }.search-box { margin-top:28px; grid-template-columns:1fr; }.search-box button { min-height:52px; }.mini-player { max-width:100%; padding:10px 12px; gap:9px; }.album-art { width:42px; height:42px; flex-basis:42px; }.playlist-pill { display:none; }.grid { grid-template-columns:1fr; } section { padding:56px 22px; }.ghazal-stage { min-height:295px; padding:34px 25px; }.stage-title { font-size:23px; }.stage-couplet { font-size:19px; }.ghazal-controls { gap:7px; }.ghazal-control { min-width:0; padding:0 11px; font-size:13px; }.about-dialogue { grid-template-columns:54px 1fr; padding:18px; gap:13px; }.insta-avatar { width:54px; height:54px; font-size:23px; }.about-dialogue:before { left:75px; }.insta-link { grid-column:1/-1; } }
+
+    /* ===================== MEHFIL UPGRADE — START ===================== */
+    :root { --mf-night:#150a07; --mf-night2:#20120c; --mf-wine:#3c140f; --mf-gold:#e9b976; --mf-gold2:#f3cd8f; --mf-cream:#fff5df; --mf-glow:rgba(233,185,118,.35); }
+    .mehfil-section { max-width:none; padding:0; background:radial-gradient(circle at 20% 0%,#2a170f,#150a07 60%); color:var(--mf-cream); position:relative; overflow:hidden; }
+    .mehfil-section .mehfil-inner { max-width:1180px; margin:auto; padding:78px 26px 64px; position:relative; z-index:2; }
+    .mehfil-section:before,.mehfil-section:after { content:''; position:absolute; width:260px; height:260px; border-radius:50%; background:radial-gradient(circle,var(--mf-glow),transparent 70%); pointer-events:none; z-index:1; animation:mfDrift 14s ease-in-out infinite alternate; }
+    .mehfil-section:before { top:-70px; left:-40px; }
+    .mehfil-section:after { bottom:-90px; right:-30px; animation-delay:-6s; }
+    @keyframes mfDrift { from { transform:translate(0,0) scale(1); } to { transform:translate(24px,18px) scale(1.12); } }
+    .mehfil-section .section-kicker { color:var(--mf-gold); }
+    .mehfil-section h2 { color:var(--mf-cream); }
+    .mehfil-subtitle { margin:-14px 0 26px; max-width:520px; font:italic 500 18px/1.6 'Noto Serif Devanagari',serif; color:#e8cba3; }
+    .mehfil-start-btn { min-height:52px; padding:0 30px; border:1px solid var(--mf-gold); background:linear-gradient(120deg,#c98a3d,#e9b976); color:#241205; font:700 17px Hind,sans-serif; box-shadow:0 12px 28px rgba(0,0,0,.35); }
+    .mehfil-start-btn:hover { filter:brightness(1.08); transform:translateY(-1px); }
+    .mehfil-why-grid { margin-top:52px; }
+    .mehfil-why-grid .card { background:rgba(255,253,248,.05); border-color:rgba(233,185,118,.25); color:var(--mf-cream); }
+    .mehfil-why-grid .card h3 { color:var(--mf-gold2); }
+    .mehfil-why-grid .card p { color:#d7c0a2; }
+    .mehfil-why-grid .icon { color:var(--mf-gold); }
+
+    /* Immersive overlay */
+    .mehfil-overlay { position:fixed; inset:0; z-index:1000; background:radial-gradient(circle at 50% 0%,#3a2013,var(--mf-night) 62%); opacity:0; pointer-events:none; transition:opacity .35s ease; overflow-y:auto; }
+    .mehfil-overlay.is-open { opacity:1; pointer-events:auto; }
+    .mehfil-atmosphere { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+    .mf-spark { position:absolute; width:3px; height:3px; border-radius:50%; background:var(--mf-gold2); opacity:.55; animation:mfTwinkle 4.5s ease-in-out infinite; box-shadow:0 0 6px 1px var(--mf-glow); }
+    @keyframes mfTwinkle { 0%,100% { opacity:.15; transform:scale(1); } 50% { opacity:.85; transform:scale(1.6); } }
+    .mehfil-overlay-inner { position:relative; z-index:2; max-width:900px; margin:0 auto; padding:70px 24px 110px; }
+    .mehfil-close { position:sticky; top:16px; float:right; z-index:5; border:1px solid rgba(233,185,118,.4); background:rgba(21,10,7,.7); color:var(--mf-cream); padding:0 16px; min-height:42px; border-radius:24px; font-size:14px; }
+    .mehfil-close:hover { background:rgba(233,185,118,.18); }
+    .mehfil-current-ghazal { clear:both; text-align:center; padding:36px 20px; border:1px solid rgba(233,185,118,.35); border-radius:18px; background:radial-gradient(circle at top,#4a2a17,#20120c 70%); box-shadow:0 16px 40px rgba(0,0,0,.35); }
+    .mehfil-current-label { letter-spacing:1.6px; font-size:12px; font-weight:700; color:var(--mf-gold); text-transform:uppercase; }
+    .mehfil-current-ghazal h3 { margin:12px 0 10px; font:600 26px 'Noto Serif Devanagari',serif; color:var(--mf-cream); }
+    .mehfil-current-ghazal p#mehfilCurrentCouplet { margin:0 auto; max-width:600px; white-space:pre-line; font:500 17px/1.8 'Noto Serif Devanagari',serif; color:#fdf2de; }
+    .mehfil-current-ghazal p#mehfilCurrentAuthor { margin:16px 0 0; color:var(--mf-gold2); font:italic 600 15px 'Noto Serif Devanagari',serif; }
+    .mehfil-block { margin-top:52px; }
+    .mehfil-block h4 { margin:0 0 20px; font:600 22px 'Noto Serif Devanagari',serif; color:var(--mf-cream); text-align:center; }
+    .mood-row { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
+    .mood-chip { min-height:46px; padding:0 20px; border-radius:26px; border:1px solid rgba(233,185,118,.35); background:rgba(255,255,255,.04); color:var(--mf-cream); font:600 15px Hind,sans-serif; display:inline-flex; align-items:center; gap:8px; }
+    .mood-chip:hover { background:rgba(233,185,118,.14); }
+    .mood-chip.is-active { background:linear-gradient(120deg,#c98a3d,#e9b976); color:#241205; border-color:transparent; }
+    .sher-of-day-card { max-width:640px; margin:0 auto; padding:30px 26px; text-align:center; border:1px solid rgba(233,185,118,.4); border-radius:16px; background:rgba(255,255,255,.04); box-shadow:0 12px 30px rgba(0,0,0,.28); }
+    .sher-of-day-card .sod-kicker { color:var(--mf-gold); font-weight:700; letter-spacing:1.4px; font-size:12px; text-transform:uppercase; }
+    .sher-of-day-card p { margin:14px 0; white-space:pre-line; font:500 19px/1.85 'Noto Serif Devanagari',serif; color:var(--mf-cream); }
+    .sher-of-day-card .sod-author { color:var(--mf-gold2); font:italic 600 15px 'Noto Serif Devanagari',serif; }
+    .mf-actions { margin-top:18px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+    .mf-action-btn { min-height:40px; padding:0 16px; border-radius:20px; border:1px solid rgba(233,185,118,.35); background:transparent; color:var(--mf-cream); font-size:14px; }
+    .mf-action-btn:hover { background:rgba(233,185,118,.14); }
+    .mf-action-btn.is-liked { background:rgba(233,185,118,.9); color:#241205; border-color:transparent; }
+    .mehfil-reco-grid,.mehfil-cards-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    .mf-reco-card { padding:18px; border:1px solid rgba(233,185,118,.25); border-radius:12px; background:rgba(255,255,255,.03); cursor:pointer; }
+    .mf-reco-card:hover { background:rgba(233,185,118,.1); }
+    .mf-reco-card strong { display:block; margin-bottom:6px; font:600 17px 'Noto Serif Devanagari',serif; color:var(--mf-gold2); }
+    .mf-reco-card span { font-size:13px; color:#d7c0a2; }
+    .mf-empty { grid-column:1/-1; text-align:center; color:#c8ab88; padding:20px; font-size:14px; }
+    #sherForm { display:flex; flex-direction:column; gap:12px; max-width:520px; margin:0 auto; }
+    #sherForm input,#sherForm textarea { padding:12px 14px; border-radius:8px; border:1px solid rgba(233,185,118,.35); background:rgba(255,255,255,.05); color:var(--mf-cream); font:500 15px Hind,sans-serif; }
+    #sherForm textarea { min-height:90px; resize:vertical; white-space:pre-line; }
+    #sherForm input::placeholder,#sherForm textarea::placeholder { color:#c8ab88; }
+    #sherForm button { align-self:center; min-height:46px; padding:0 26px; background:linear-gradient(120deg,#c98a3d,#e9b976); color:#241205; }
+    .mehfil-note { max-width:520px; margin:12px auto 0; text-align:center; font-size:12.5px; color:#c8ab88; }
+    .mf-ashaar-card { padding:20px; border:1px solid rgba(233,185,118,.25); border-radius:12px; background:rgba(255,255,255,.03); }
+    .mf-ashaar-card p { margin:0 0 10px; white-space:pre-line; font:500 16px/1.7 'Noto Serif Devanagari',serif; color:var(--mf-cream); }
+    .mf-ashaar-card .mf-ashaar-name { display:block; margin-bottom:10px; color:var(--mf-gold2); font:italic 600 14px 'Noto Serif Devanagari',serif; }
+    .mehfil-share-special { display:block; margin:56px auto 0; min-height:50px; padding:0 26px; border-radius:28px; background:linear-gradient(110deg,#833ab4,#e1306c,#f77737); color:#fff9ed; font:700 16px Hind,sans-serif; }
+    .mehfil-share-special:hover { filter:brightness(1.06); }
+    @media (max-width:760px) { .mehfil-section .mehfil-inner { padding:56px 20px 44px; } .mehfil-overlay-inner { padding:60px 16px 90px; } .mehfil-reco-grid,.mehfil-cards-grid { grid-template-columns:1fr; } .mehfil-current-ghazal { padding:26px 16px; } .mood-chip { padding:0 15px; font-size:13.5px; } }
+    @media (prefers-reduced-motion:reduce) { .mehfil-section:before,.mehfil-section:after,.mf-spark { animation:none; } }
+    /* ===================== MEHFIL UPGRADE — END ===================== */
   </style>
 </head>
 <body>
@@ -107,15 +175,72 @@
       <ul class="playlist-list" id="playlistList"><li class="playlist-empty">प्लेयर लोड हो रहा है, कृपया प्रतीक्षा करें…</li></ul>
     </div>
   </div>
-  <section id="mehfil">
-    <div class="section-kicker">क्यों ग़ज़ल की दुनिया?</div>
-    <h2>दिल की बात, बेहतरीन अंदाज़ में</h2>
-    <div class="grid">
-      <article class="card"><div class="icon">✦</div><h3>चुनिंदा ग़ज़लें</h3><p>मशहूर शायरों से लेकर नए अल्फ़ाज़ों तक, हर मिज़ाज के लिए एक खास पेशकश।</p></article>
-      <article class="card"><div class="icon">♫</div><h3>सुनिए और महसूस कीजिए</h3><p>नर्म आवाज़ों और सुकून भरी धुनों के साथ अपनी पसंदीदा ग़ज़लों का आनंद लें।</p></article>
-      <article class="card"><div class="icon">❦</div><h3>अपनी महफ़िल बनाइए</h3><p>पसंद की ग़ज़लों को सहेजें, दोस्तों के साथ साझा करें और अपनी शाम को खास बनाएं।</p></article>
+  <section id="mehfil" class="mehfil-section">
+    <div class="mehfil-inner">
+      <div class="section-kicker">महफ़िल में आपका स्वागत है</div>
+      <h2>ग़ज़ल की महफ़िल</h2>
+      <p class="mehfil-subtitle">आज की रात कुछ अल्फ़ाज़ आपके नाम…</p>
+      <button class="mehfil-start-btn" type="button" onclick="openMehfil()">✦ महफ़िल शुरू करें</button>
+      <div class="grid mehfil-why-grid">
+        <article class="card"><div class="icon">✦</div><h3>चुनिंदा ग़ज़लें</h3><p>मशहूर शायरों से लेकर नए अल्फ़ाज़ों तक, हर मिज़ाज के लिए एक खास पेशकश।</p></article>
+        <article class="card"><div class="icon">♫</div><h3>सुनिए और महसूस कीजिए</h3><p>नर्म आवाज़ों और सुकून भरी धुनों के साथ अपनी पसंदीदा ग़ज़लों का आनंद लें।</p></article>
+        <article class="card"><div class="icon">❦</div><h3>अपनी महफ़िल बनाइए</h3><p>पसंद की ग़ज़लों को सहेजें, दोस्तों के साथ साझा करें और अपनी शाम को खास बनाएं।</p></article>
+      </div>
     </div>
   </section>
+
+  <!-- ===================== MEHFIL UPGRADE — IMMERSIVE OVERLAY START ===================== -->
+  <div class="mehfil-overlay" id="mehfilOverlay" aria-hidden="true">
+    <div class="mehfil-atmosphere" id="mehfilAtmosphere"></div>
+    <div class="mehfil-overlay-inner">
+      <button class="mehfil-close" type="button" onclick="closeMehfil()">✕ महफ़िल बंद करें</button>
+
+      <div class="mehfil-current-ghazal">
+        <div class="mehfil-current-label">इस वक़्त महफ़िल में</div>
+        <h3 id="mehfilCurrentTitle"></h3>
+        <p id="mehfilCurrentCouplet"></p>
+        <p id="mehfilCurrentAuthor"></p>
+      </div>
+
+      <div class="mehfil-block">
+        <h4>आज आपका दिल क्या सुनना चाहता है?</h4>
+        <div class="mood-row" id="moodRow"></div>
+      </div>
+
+      <div class="mehfil-block">
+        <h4>✦ आज का शेर</h4>
+        <div class="sher-of-day-card" id="sherOfDayCard"></div>
+      </div>
+
+      <div class="mehfil-block">
+        <h4>आज क्या सुनना चाहेंगे?</h4>
+        <div class="mood-row" id="farmaishRow"></div>
+      </div>
+
+      <div class="mehfil-block">
+        <h4 id="recoTitle">आपके मूड के लिए</h4>
+        <div class="mehfil-reco-grid" id="mehfilRecoGrid"></div>
+      </div>
+
+      <div class="mehfil-block">
+        <h4>अपना शेर इस महफ़िल में छोड़िए</h4>
+        <form id="sherForm">
+          <input id="sherName" type="text" placeholder="नाम" maxlength="40" required>
+          <textarea id="sherText" placeholder="अपना शेर यहाँ लिखें…" maxlength="400" required></textarea>
+          <button type="submit">महफ़िल में शामिल करें</button>
+        </form>
+        <p class="mehfil-note">* यह सबमिशन सिर्फ़ आपके ब्राउज़र (localStorage) में सेव होता है और सिर्फ़ आपको दिखेगा। सभी विज़िटर्स के लिए स्थायी रूप से शेर दिखाने के लिए बैकएंड/डेटाबेस (जैसे Firebase या कोई API) जोड़ना होगा।</p>
+      </div>
+
+      <div class="mehfil-block">
+        <h4>महफ़िल के चुनिंदा अशआर</h4>
+        <div class="mehfil-cards-grid" id="ashaarGrid"></div>
+      </div>
+
+      <button class="mehfil-share-special" type="button" onclick="shareMehfilLink()">❤️ ये महफ़िल किसी खास के साथ सुनें</button>
+    </div>
+  </div>
+  <!-- ===================== MEHFIL UPGRADE — IMMERSIVE OVERLAY END ===================== -->
   <section class="collection" id="collection">
     <div class="section-kicker">ग़ज़ल संग्रह · 50 क्लासिक रचनाएँ</div>
     <h2>हर मिज़ाज के लिए एक ग़ज़ल</h2>
@@ -134,6 +259,11 @@
       ['ग़ज़ब किया तेरे वादे पे एतबार किया', 'दाग़ देहलवी'], ['लुत्फ़ वो इश्क़ में पाए हैं कि जी जानता है', 'दाग़ देहलवी'], ['अच्छे ईसा हो मरीज़ों का ख़याल अच्छा है', 'दाग़ देहलवी'], ['तुमको चाहा तो ख़ता क्या है, बता दो मुझको', 'दाग़ देहलवी'], ['न जाने क्या था जो आँखों से आँख मिल न सकी', 'दाग़ देहलवी'],
       ['जिसे इश्क़ का तीर कारी लगे', 'वली मोहम्मद वली'], ['किया मुझ इश्क़ ने ज़ालिम क़रीब आहिस्ता आहिस्ता', 'वली मोहम्मद वली'], ['पिया बाज प्याला पिया जाए ना', 'वली मोहम्मद वली'], ['सजन तुम सुख सेती खोलो नक़ाब आहिस्ता आहिस्ता', 'वली मोहम्मद वली'], ['हुस्न के समझने को उम्र चाहिए जानाँ', 'वली मोहम्मद वली']
     ].map(([title, author, fullText]) => ({ title, author, fullText }));
+    /* MEHFIL UPGRADE: har ghazal ko ek "mood" tag do taaki mood-selector/farmaish use kar sake.
+       Note: yeh heuristic tagging hai (cycle-based) kyunki original data mein mood info nahi tha.
+       Behtar accuracy ke liye ise manually curate karein ya backend se mood-tagged data laayein. */
+    const MEHFIL_MOOD_CYCLE = ['ishq', 'dard', 'tanhai', 'sukoon', 'ummeed', 'yaad'];
+    allGhazals.forEach((g, i) => { g.mood = MEHFIL_MOOD_CYCLE[i % MEHFIL_MOOD_CYCLE.length]; });
     let currentGhazal = 0, ghazalTimer;
     function renderGhazal() {
       const item = allGhazals[currentGhazal];
@@ -292,6 +422,257 @@
       updateProgress();
     });
   </script>
+
+  <!-- ===================== MEHFIL UPGRADE — SCRIPT START ===================== -->
+  <script>
+    const MOOD_META = {
+      ishq:   { icon: '❤️', label: 'इश्क़' },
+      dard:   { icon: '💔', label: 'दर्द' },
+      tanhai: { icon: '🌙', label: 'तन्हाई' },
+      sukoon: { icon: '🥂', label: 'सुकून' },
+      ummeed: { icon: '✨', label: 'उम्मीद' },
+      yaad:   { icon: '🎙️', label: 'याद' }
+    };
+    const MOOD_SELECTOR_KEYS = ['ishq', 'dard', 'tanhai', 'sukoon', 'ummeed'];
+    const FARMAISH_KEYS = ['ishq', 'dard', 'tanhai', 'sukoon', 'yaad'];
+    const CURATED_SHER_IDS = [0, 3, 7, 15, 25, 40].filter(i => i < allGhazals.length);
+    let activeMood = null;
+    let activeFarmaish = null;
+    let mehfilOpen = false;
+
+    function shortCouplet(text) {
+      if (!text) return '';
+      const first = text.split('<br><br>')[0] || text;
+      return first.replace(/<br>/g, '\n');
+    }
+
+    function getLikes() { try { return JSON.parse(localStorage.getItem('mehfilLikes') || '{}'); } catch (e) { return {}; } }
+    function setLikes(obj) { localStorage.setItem('mehfilLikes', JSON.stringify(obj)); }
+    function toggleLike(id, btn) {
+      const likes = getLikes();
+      likes[id] = !likes[id];
+      setLikes(likes);
+      if (btn) btn.classList.toggle('is-liked', !!likes[id]);
+    }
+
+    function getUserShers() { try { return JSON.parse(localStorage.getItem('mehfilUserShers') || '[]'); } catch (e) { return []; } }
+    function saveUserShers(arr) { localStorage.setItem('mehfilUserShers', JSON.stringify(arr)); }
+
+    function copyText(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+      } else fallbackCopy(text);
+    }
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+    function shareText(text) {
+      if (navigator.share) {
+        navigator.share({ text }).catch(() => {});
+      } else {
+        window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
+      }
+    }
+
+    function buildAtmosphere() {
+      const wrap = document.getElementById('mehfilAtmosphere');
+      if (!wrap || wrap.dataset.built) return;
+      wrap.dataset.built = '1';
+      for (let i = 0; i < 22; i++) {
+        const s = document.createElement('div');
+        s.className = 'mf-spark';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.animationDelay = (Math.random() * 4.5).toFixed(2) + 's';
+        wrap.appendChild(s);
+      }
+    }
+
+    function selectGhazal(index) {
+      currentGhazal = ((index % allGhazals.length) + allGhazals.length) % allGhazals.length;
+      renderGhazal();
+      resetGhazalTimer();
+      updateMehfilCurrent();
+      // Existing playlist se sync karne ki koshish (agar player ready hai). Ghazal-text array aur
+      // YouTube playlist alag sources hain, isliye index ko modulo se map kiya ja raha hai.
+      if (playerReady) {
+        const list = musicPlayer.getPlaylist ? musicPlayer.getPlaylist() : null;
+        if (list && list.length) {
+          hasStartedRandom = true;
+          musicPlayer.playVideoAt(currentGhazal % list.length);
+          document.getElementById('playButton').textContent = 'Ⅱ';
+        }
+      }
+    }
+
+    function updateMehfilCurrent() {
+      const item = allGhazals[currentGhazal];
+      document.getElementById('mehfilCurrentTitle').textContent = item.title;
+      document.getElementById('mehfilCurrentCouplet').textContent = shortCouplet(item.fullText);
+      document.getElementById('mehfilCurrentAuthor').textContent = item.author;
+    }
+
+    function renderMoodRow(containerId, keys, onSelect, activeGetter) {
+      const row = document.getElementById(containerId);
+      row.innerHTML = '';
+      keys.forEach(key => {
+        const meta = MOOD_META[key];
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'mood-chip' + (activeGetter() === key ? ' is-active' : '');
+        chip.innerHTML = meta.icon + ' ' + meta.label;
+        chip.addEventListener('click', () => onSelect(key));
+        row.appendChild(chip);
+      });
+    }
+
+    function renderRecommendations(mood, sourceLabel) {
+      const grid = document.getElementById('mehfilRecoGrid');
+      document.getElementById('recoTitle').textContent = mood ? sourceLabel + ': ' + MOOD_META[mood].label : sourceLabel;
+      grid.innerHTML = '';
+      const matches = mood ? allGhazals.map((g, i) => ({ g, i })).filter(x => x.g.mood === mood) : [];
+      if (!matches.length) {
+        grid.innerHTML = '<div class="mf-empty">कोई मूड चुनिए, हम आपके लिए ग़ज़ल चुनते हैं…</div>';
+        return;
+      }
+      matches.slice(0, 8).forEach(({ g, i }) => {
+        const card = document.createElement('div');
+        card.className = 'mf-reco-card';
+        card.innerHTML = '<strong>' + g.title + '</strong><span>' + g.author + '</span>';
+        card.addEventListener('click', () => selectGhazal(i));
+        grid.appendChild(card);
+      });
+    }
+
+    function selectMood(key) {
+      activeMood = key;
+      renderMoodRow('moodRow', MOOD_SELECTOR_KEYS, selectMood, () => activeMood);
+      renderRecommendations(activeMood, 'आपके मूड के लिए');
+    }
+    function selectFarmaish(key) {
+      activeFarmaish = key;
+      renderMoodRow('farmaishRow', FARMAISH_KEYS, selectFarmaish, () => activeFarmaish);
+      renderRecommendations(activeFarmaish, 'आपकी फ़रमाइश पर');
+    }
+
+    function renderSherOfDay() {
+      const dayIndex = Math.floor(Date.now() / 86400000) % allGhazals.length;
+      const item = allGhazals[dayIndex];
+      const card = document.getElementById('sherOfDayCard');
+      const sherId = 'sod-' + dayIndex;
+      const likes = getLikes();
+      card.innerHTML =
+        '<div class="sod-kicker">आज का शेर</div>' +
+        '<p>' + shortCouplet(item.fullText) + '</p>' +
+        '<div class="sod-author">— ' + item.author + '</div>' +
+        '<div class="mf-actions">' +
+          '<button class="mf-action-btn" type="button" data-act="copy">📋 कॉपी करें</button>' +
+          '<button class="mf-action-btn" type="button" data-act="share">↗ शेयर करें</button>' +
+          '<button class="mf-action-btn' + (likes[sherId] ? ' is-liked' : '') + '" type="button" data-act="like">❤️ पसंद</button>' +
+        '</div>';
+      const fullText = shortCouplet(item.fullText) + '\n— ' + item.author;
+      card.querySelector('[data-act="copy"]').addEventListener('click', () => copyText(fullText));
+      card.querySelector('[data-act="share"]').addEventListener('click', () => shareText(fullText));
+      card.querySelector('[data-act="like"]').addEventListener('click', function () { toggleLike(sherId, this); });
+    }
+
+    function renderAshaarGrid() {
+      const grid = document.getElementById('ashaarGrid');
+      grid.innerHTML = '';
+      const likes = getLikes();
+      const curated = CURATED_SHER_IDS.map(i => ({
+        id: 'curated-' + i, name: allGhazals[i].author, text: shortCouplet(allGhazals[i].fullText)
+      }));
+      const user = getUserShers().map(s => ({ id: s.id, name: s.name, text: s.text }));
+      curated.concat(user).forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'mf-ashaar-card';
+        card.innerHTML =
+          '<span class="mf-ashaar-name">— ' + item.name + '</span>' +
+          '<p>' + item.text + '</p>' +
+          '<div class="mf-actions">' +
+            '<button class="mf-action-btn" type="button" data-act="copy">📋</button>' +
+            '<button class="mf-action-btn" type="button" data-act="share">↗</button>' +
+            '<button class="mf-action-btn' + (likes[item.id] ? ' is-liked' : '') + '" type="button" data-act="like">❤️</button>' +
+          '</div>';
+        const fullText = item.text + '\n— ' + item.name;
+        card.querySelector('[data-act="copy"]').addEventListener('click', () => copyText(fullText));
+        card.querySelector('[data-act="share"]').addEventListener('click', () => shareText(fullText));
+        card.querySelector('[data-act="like"]').addEventListener('click', function () { toggleLike(item.id, this); });
+        grid.appendChild(card);
+      });
+    }
+
+    document.getElementById('sherForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const nameEl = document.getElementById('sherName');
+      const textEl = document.getElementById('sherText');
+      const name = nameEl.value.trim(), text = textEl.value.trim();
+      if (!name || !text) return;
+      const arr = getUserShers();
+      arr.unshift({ id: 'u-' + Date.now(), name, text, ts: Date.now() });
+      saveUserShers(arr);
+      nameEl.value = ''; textEl.value = '';
+      renderAshaarGrid();
+    });
+
+    function shareMehfilLink() {
+      const url = window.location.origin + window.location.pathname + '?mehfil=' + currentGhazal;
+      const text = 'ये महफ़िल आपके नाम — ' + url;
+      if (navigator.share) {
+        navigator.share({ title: 'ग़ज़ल की महफ़िल', text: 'ये महफ़िल आपके नाम', url: url }).catch(() => {});
+      } else {
+        copyText(url);
+        window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
+      }
+    }
+
+    function openMehfil() {
+      mehfilOpen = true;
+      buildAtmosphere();
+      document.getElementById('mehfilOverlay').classList.add('is-open');
+      document.getElementById('mehfilOverlay').setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      updateMehfilCurrent();
+      renderMoodRow('moodRow', MOOD_SELECTOR_KEYS, selectMood, () => activeMood);
+      renderMoodRow('farmaishRow', FARMAISH_KEYS, selectFarmaish, () => activeFarmaish);
+      renderRecommendations(activeMood, 'आपके मूड के लिए');
+      renderSherOfDay();
+      renderAshaarGrid();
+    }
+    function closeMehfil() {
+      mehfilOpen = false;
+      document.getElementById('mehfilOverlay').classList.remove('is-open');
+      document.getElementById('mehfilOverlay').setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('mehfilOverlay').addEventListener('click', function (e) {
+      if (e.target === this) closeMehfil();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mehfilOpen) closeMehfil();
+    });
+
+    // URL se ?mehfil=<index> aaye to us ghazal ko auto-select karke Mehfil experience khol do.
+    (function initMehfilFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const raw = params.get('mehfil');
+      if (raw === null) return;
+      const idx = parseInt(raw, 10);
+      if (!isNaN(idx) && idx >= 0 && idx < allGhazals.length) {
+        currentGhazal = idx;
+        renderGhazal();
+        resetGhazalTimer();
+        setTimeout(openMehfil, 300);
+      }
+    })();
+  </script>
+  <!-- ===================== MEHFIL UPGRADE — SCRIPT END ===================== -->
+
   <a class="coffee-btn" id="coffeeBtn" href="https://rzp.io/rzp/vGBZTIC" target="_blank" rel="noopener" aria-label="मुझे एक कॉफ़ी पिलाएं">
     <span class="coffee-icon">☕</span>
     <span class="coffee-text">Buy me a coffee</span>
