@@ -8,6 +8,30 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- ===================== MEHFIL UPGRADE — FIREBASE START =====================
+       "अपना शेर छोड़िए" ab localStorage ki jagah Firestore me save/load hota hai,
+       taaki sab visitors ko sabke submitted shers dikhein (sirf submitter ko nahi). -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAlx1UYgN9odk1KggejktdvDiNQlkRWYWk",
+      authDomain: "gazalwala.firebaseapp.com",
+      projectId: "gazalwala",
+      storageBucket: "gazalwala.firebasestorage.app",
+      messagingSenderId: "819403869087",
+      appId: "1:819403869087:web:39444cf0f61a25f1138baa",
+      measurementId: "G-DG4QYZ74BB"
+    };
+    const fbApp = initializeApp(firebaseConfig);
+    window.mehfilDb = getFirestore(fbApp);
+    window.mehfilFirestore = { collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp };
+    window.mehfilFirebaseReady = true;
+  </script>
+  <!-- ===================== MEHFIL UPGRADE — FIREBASE END ===================== -->
   <style>
     :root { --ink:#25130c; --wine:#6f251b; --saffron:#d99744; --cream:#fff7e9; --paper:#f6e7ce; }
     * { box-sizing:border-box; }
@@ -229,7 +253,6 @@
           <textarea id="sherText" placeholder="अपना शेर यहाँ लिखें…" maxlength="400" required></textarea>
           <button type="submit">महफ़िल में शामिल करें</button>
         </form>
-        <p class="mehfil-note">* यह सबमिशन सिर्फ़ आपके ब्राउज़र (localStorage) में सेव होता है और सिर्फ़ आपको दिखेगा। सभी विज़िटर्स के लिए स्थायी रूप से शेर दिखाने के लिए बैकएंड/डेटाबेस (जैसे Firebase या कोई API) जोड़ना होगा।</p>
       </div>
 
       <div class="mehfil-block">
@@ -458,6 +481,36 @@
     function getUserShers() { try { return JSON.parse(localStorage.getItem('mehfilUserShers') || '[]'); } catch (e) { return []; } }
     function saveUserShers(arr) { localStorage.setItem('mehfilUserShers', JSON.stringify(arr)); }
 
+    /* MEHFIL UPGRADE — FIRESTORE: agar Firebase load ho chuka hai to sab visitors ke
+       shers Firestore ke "mehfilShers" collection se aate hain (public/shared).
+       Firebase load na ho paaye (network issue / blocked) to localStorage par fallback hota hai
+       taaki form kabhi bhi crash na ho. */
+    async function fetchSharedShers() {
+      if (!window.mehfilFirebaseReady) return null;
+      try {
+        const { collection, getDocs, query, orderBy, limit } = window.mehfilFirestore;
+        const q = query(collection(window.mehfilDb, 'mehfilShers'), orderBy('ts', 'desc'), limit(20));
+        const snap = await getDocs(q);
+        const out = [];
+        snap.forEach(doc => out.push({ id: doc.id, ...doc.data() }));
+        return out;
+      } catch (e) {
+        console.warn('Firestore fetch failed, falling back to local shers.', e);
+        return null;
+      }
+    }
+    async function addSharedSher(name, text) {
+      if (!window.mehfilFirebaseReady) return false;
+      try {
+        const { collection, addDoc, serverTimestamp } = window.mehfilFirestore;
+        await addDoc(collection(window.mehfilDb, 'mehfilShers'), { name, text, ts: Date.now(), createdAt: serverTimestamp() });
+        return true;
+      } catch (e) {
+        console.warn('Firestore save failed, falling back to local save.', e);
+        return false;
+      }
+    }
+
     function copyText(text) {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
@@ -580,15 +633,22 @@
       card.querySelector('[data-act="like"]').addEventListener('click', function () { toggleLike(sherId, this); });
     }
 
-    function renderAshaarGrid() {
+    async function renderAshaarGrid() {
       const grid = document.getElementById('ashaarGrid');
-      grid.innerHTML = '';
+      grid.innerHTML = '<div class="mf-empty">अशआर लोड हो रहे हैं…</div>';
       const likes = getLikes();
       const curated = CURATED_SHER_IDS.map(i => ({
         id: 'curated-' + i, name: allGhazals[i].author, text: shortCouplet(allGhazals[i].fullText)
       }));
-      const user = getUserShers().map(s => ({ id: s.id, name: s.name, text: s.text }));
-      curated.concat(user).forEach(item => {
+      let shared = await fetchSharedShers();
+      let userItems;
+      if (shared) {
+        userItems = shared.map(s => ({ id: s.id, name: s.name, text: s.text }));
+      } else {
+        userItems = getUserShers().map(s => ({ id: s.id, name: s.name, text: s.text }));
+      }
+      grid.innerHTML = '';
+      curated.concat(userItems).forEach(item => {
         const card = document.createElement('div');
         card.className = 'mf-ashaar-card';
         card.innerHTML =
@@ -607,15 +667,21 @@
       });
     }
 
-    document.getElementById('sherForm').addEventListener('submit', function (e) {
+    document.getElementById('sherForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const nameEl = document.getElementById('sherName');
       const textEl = document.getElementById('sherText');
+      const submitBtn = e.target.querySelector('button[type="submit"]');
       const name = nameEl.value.trim(), text = textEl.value.trim();
       if (!name || !text) return;
-      const arr = getUserShers();
-      arr.unshift({ id: 'u-' + Date.now(), name, text, ts: Date.now() });
-      saveUserShers(arr);
+      submitBtn.disabled = true;
+      const savedShared = await addSharedSher(name, text);
+      if (!savedShared) {
+        const arr = getUserShers();
+        arr.unshift({ id: 'u-' + Date.now(), name, text, ts: Date.now() });
+        saveUserShers(arr);
+      }
+      submitBtn.disabled = false;
       nameEl.value = ''; textEl.value = '';
       renderAshaarGrid();
     });
@@ -642,7 +708,7 @@
       renderMoodRow('farmaishRow', FARMAISH_KEYS, selectFarmaish, () => activeFarmaish);
       renderRecommendations(activeMood, 'आपके मूड के लिए');
       renderSherOfDay();
-      renderAshaarGrid();
+      renderAshaarGrid(); // async — fire and forget, grid updates once Firestore data arrives
     }
     function closeMehfil() {
       mehfilOpen = false;
